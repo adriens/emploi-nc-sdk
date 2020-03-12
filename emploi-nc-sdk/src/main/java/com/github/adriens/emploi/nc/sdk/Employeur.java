@@ -1,4 +1,4 @@
-package com.mycompany.emploi.nc.sdk;
+package com.github.adriens.emploi.nc.sdk;
 
 /**
  *
