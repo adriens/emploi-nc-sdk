@@ -46,7 +46,9 @@ public class Emplois {
     public static final String BASE_URL_OFFRE = "https://emploi.gouv.nc/offres/";
 
     public static ArrayList<Emploi> getLatestEmploi(int numberLatest) throws IOException {
+
         ArrayList<Emploi> listeEmplois = new ArrayList<>();
+
         logger.info("------------------------------------------------------------");
         logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
         
@@ -64,15 +66,19 @@ public class Emplois {
         logger.info("Recherche de "+numberLatest+" offres emplois.");		
         
         for (int i = 0; i < numberLatest; i++) {
-            logger.info("Emplois : <" + i + ">\n");
-            Emploi emploi = new Emploi();
-            listeEmplois.add(getInfoEmploi(jsonNode,emploi, i));
+            Emploi emploi = getInfoEmploi(jsonNode, i);
+            logger.info("Récupéré emploi :<"+i+"><"+emploi+">");
+
+            logger.info("Ajout de l'emploi <" + i + "> à la liste");
+            listeEmplois.add( emploi );
+            
             logger.info("------------------------------------------------------------");
         }
         return listeEmplois;
     }
 
-    public static Emploi getInfoEmploi(JsonNode jsonNode, Emploi emploi ,int i) {
+    public static Emploi getInfoEmploi(JsonNode jsonNode,int i) {
+            Emploi emploi = new Emploi();
 
             try {
                 String idOffre = jsonNode.get("_embedded").get(i).get("id").asText();
@@ -137,6 +143,7 @@ public class Emplois {
             } catch (Exception e) {
                 logger.warn("codeROME d'emplois <" + i + "> introuvable.");
             }
+            
             return emploi;
     }
 
