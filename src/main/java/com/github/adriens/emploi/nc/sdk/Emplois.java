@@ -67,6 +67,7 @@ public class Emplois {
             logger.info("Emplois : <" + i + ">\n");
             Emploi emploi = new Emploi();
             getInfoEmploi(jsonNode,emploi, i);
+            listeEmplois.add(emploi);
             logger.info("------------------------------------------------------------");
         }
         return listeEmplois;
