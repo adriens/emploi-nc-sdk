@@ -71,7 +71,7 @@ public class Emplois {
 
             logger.info("Ajout de l'emploi <" + i + "> à la liste");
             listeEmplois.add( emploi );
-            
+
             logger.info("------------------------------------------------------------");
         }
         return listeEmplois;
@@ -225,8 +225,9 @@ public class Emplois {
             // TODO : Repenser structure du code
             Employeur employeur = new Employeur();
 
-            logger.info("Emplois : <" + i + ">\n");
-            getInfoEmploi(jsonNode,emploi, i);
+
+            
+            emploi = getInfoEmploi(jsonNode, i);
             getInfoEmployeur(jsonNode,employeur, i);
 
 
@@ -237,8 +238,11 @@ public class Emplois {
             } catch (Exception e) {
                 logger.warn("Url vers l'offre d'emploi <" + i + "> introuvable.");
             }
-            logger.info("------------------------------------------------------------");
+         
+            logger.info("Récupéré emploi :<"+i+"><"+emploi+">");
+            logger.info("Ajout de l'emploi <" + i + "> à la liste");
             listeEmplois.add(emploi);
+            logger.info("------------------------------------------------------------");
         }
         
         return listeEmplois;
