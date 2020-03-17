@@ -4,7 +4,7 @@
     <!-- TODO : CLEAN -->
     <groupId>com.github.adriens</groupId>
     <artifactId>emploi-nc-sdk</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.24</version>
     <packaging>jar</packaging>
 
     <properties>
