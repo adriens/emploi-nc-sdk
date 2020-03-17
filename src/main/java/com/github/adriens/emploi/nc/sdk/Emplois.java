@@ -66,8 +66,7 @@ public class Emplois {
         for (int i = 0; i < numberLatest; i++) {
             logger.info("Emplois : <" + i + ">\n");
             Emploi emploi = new Emploi();
-            getInfoEmploi(jsonNode,emploi, i);
-            listeEmplois.add(emploi);
+            listeEmplois.add(getInfoEmploi(jsonNode,emploi, i));
             logger.info("------------------------------------------------------------");
         }
         return listeEmplois;
