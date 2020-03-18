@@ -4,7 +4,7 @@
     <!-- TODO : CLEAN -->
     <groupId>com.github.adriens</groupId>
     <artifactId>emploi-nc-sdk</artifactId>
-    <version>0.1.26-SNAPSHOT</version>
+    <version>0.1.27-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -30,6 +30,7 @@
             <version>${logback.version}</version>
             <type>jar</type>
         </dependency>
+
     </dependencies>
     <name/>
 </project>

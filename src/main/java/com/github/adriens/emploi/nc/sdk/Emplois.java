@@ -47,9 +47,9 @@ public class Emplois {
     
     public static final String BASE_URL_OFFRE = "https://emploi.gouv.nc/offres/";
 
-    public static Map<Emploi,Employeur> getLatestEmploi(int numberLatest) throws IOException {
+    public static ArrayList<Emploi> getLatestEmploi(int numberLatest) throws IOException {
 
-        Map<Emploi,Employeur> listeEmplois = new HashMap<Emploi,Employeur>();
+        ArrayList<Emploi> listeEmplois = new ArrayList<>();
 
         logger.info("------------------------------------------------------------");
         logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
@@ -76,7 +76,8 @@ public class Emplois {
             logger.info("Ajout de l'employeur <" + i + "> à la liste");
             logger.info("Ajout de l'emploi <" + i + "> à la liste");
 
-            listeEmplois.put( emploi, employeur );
+            emploi.setEmployeur(employeur);
+            listeEmplois.add( emploi );
 
             logger.info("------------------------------------------------------------");
         }
@@ -244,6 +245,7 @@ public class Emplois {
             emploi = getInfoEmploi(jsonNode, i);
             employeur = getInfoEmployeur(jsonNode, i);
 
+            emploi.setEmployeur(employeur);
          
             logger.info("Récupéré emploi : <" + i + ">"+emploi);
             logger.info("Ajout de l'emploi <" + i + "> à la liste");

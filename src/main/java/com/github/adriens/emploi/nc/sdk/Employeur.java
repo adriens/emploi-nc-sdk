@@ -16,22 +16,7 @@ public class Employeur {
     private String adresse; // deliveryPoint
     private String logo;
 
-    /**
-     * Return Employeur object, as text.
-     *
-     * @return Employeur object, as text.
-     */
-    @Override
-    public String toString() {
-        return 
-        "\n<id: " + this.id + ">"+
-        "\n<contactid :"+this.contactid+">"+
-        "\n<typeEmployeur :"+this.typeEmployeur+">"+
-        "\n<telephone :"+this.telephone+">"+
-        "\n<mail :"+this.mail+">"+
-        "\n<adresse :"+this.adresse+">"/*+
-        "\n<logo :"+this.logo+">"*/;
-    }
+
 
     public String getId() {
         return id;
@@ -87,5 +72,22 @@ public class Employeur {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+        /**
+     * Return Employeur object, as text.
+     *
+     * @return Employeur object, as text.
+     */
+    @Override
+    public String toString() {
+        return 
+        "\n<id: " + this.id + ">"+
+        "\n<contactid :"+this.contactid+">"+
+        "\n<typeEmployeur :"+this.typeEmployeur+">"+
+        "\n<telephone :"+this.telephone+">"+
+        "\n<mail :"+this.mail+">"+
+        "\n<adresse :"+this.adresse+">"/*+
+        "\n<logo :"+this.logo+">"*/;
     }
 }

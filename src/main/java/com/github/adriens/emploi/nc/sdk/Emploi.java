@@ -11,7 +11,7 @@ package com.github.adriens.emploi.nc.sdk;
  */
 public class Emploi {
 
-    /* TODO : Typer les différentes variables d'Emplois*/
+    /* TODO : Typer les différentes variables d'Emplois */
     private String titreOffre;
     private String aPourvoirLe;
     private String typeContrat;
@@ -24,6 +24,8 @@ public class Emploi {
 
     private String url;
 
+    private Employeur employeur;
+
     /**
      * Return Emploi object, as text.
      *
@@ -31,19 +33,21 @@ public class Emploi {
      */
     @Override
     public String toString() {
-        return 
-        "\n<Titre offre: " + this.titreOffre + ">"+
-        "\n<aPourvoirLe :"+this.aPourvoirLe+ ">" +
-        "\n<typeContrat :"+this.typeContrat+">"+
-        "\n<communeEmploi :"+this.communeEmploi+">"+
-        "\n<idOffre :"+this.idOffre+">"+
-        "\n<userId :"+this.userId+">"+
-        "\n<numeroOffre :"+this.numeroOffre+">"+
-        "\n<experience :"+this.experience+">"+
-        "\n<codeRome :"+this.codeROME+">"+
-        "\n<Url :"+this.url+">";
+        return "\n<Titre offre: " + this.titreOffre + ">" + "\n<aPourvoirLe :" + this.aPourvoirLe + ">"
+                + "\n<typeContrat :" + this.typeContrat + ">" + "\n<communeEmploi :" + this.communeEmploi + ">"
+                + "\n<idOffre :" + this.idOffre + ">" + "\n<userId :" + this.userId + ">" + "\n<numeroOffre :"
+                + this.numeroOffre + ">" + "\n<experience :" + this.experience + ">" + "\n<codeRome :" + this.codeROME
+                + ">" + "\n<Url :" + this.url + ">";
     }
-    
+
+    public Employeur getEmployeur() {
+        return employeur;
+    }
+
+    public void setEmployeur(Employeur employeur) {
+        this.employeur = employeur;
+    }
+
     public String getCodeROME() {
         return codeROME;
     }
