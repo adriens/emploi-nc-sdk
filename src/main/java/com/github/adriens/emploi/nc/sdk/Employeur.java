@@ -25,7 +25,7 @@ public class Employeur {
     public String toString() {
         return 
         "\n<id: " + this.id + ">"+
-        "\n<contactid :"+this.contactid+
+        "\n<contactid :"+this.contactid+">"+
         "\n<typeEmployeur :"+this.typeEmployeur+">"+
         "\n<telephone :"+this.telephone+">"+
         "\n<mail :"+this.mail+">"+

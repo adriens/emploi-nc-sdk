@@ -33,7 +33,7 @@ public class Emploi {
     public String toString() {
         return 
         "\n<Titre offre: " + this.titreOffre + ">"+
-        "\n<aPourvoirLe :"+this.aPourvoirLe+
+        "\n<aPourvoirLe :"+this.aPourvoirLe+ ">" +
         "\n<typeContrat :"+this.typeContrat+">"+
         "\n<communeEmploi :"+this.communeEmploi+">"+
         "\n<idOffre :"+this.idOffre+">"+

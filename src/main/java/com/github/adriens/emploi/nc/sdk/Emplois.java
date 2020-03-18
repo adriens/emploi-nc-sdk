@@ -49,7 +49,7 @@ public class Emplois {
 
     public static Map<Emploi,Employeur> getLatestEmploi(int numberLatest) throws IOException {
 
-        Map<Emploi,Employeur> listeEmplois = new HashMap<>();
+        Map<Emploi,Employeur> listeEmplois = new HashMap<Emploi,Employeur>();
 
         logger.info("------------------------------------------------------------");
         logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
