@@ -7,6 +7,7 @@ package com.github.adriens.emploi.nc.sdk;
 
 public class Employeur {
 
+    /* TODO : Typer les différentes variables d'Employeur */
     private String id;
     private String contactid;
     private String typeEmployeur;
@@ -14,6 +15,23 @@ public class Employeur {
     private String mail;
     private String adresse; // deliveryPoint
     private String logo;
+
+    /**
+     * Return Employeur object, as text.
+     *
+     * @return Employeur object, as text.
+     */
+    @Override
+    public String toString() {
+        return 
+        "\n<id: " + this.id + ">"+
+        "\n<contactid :"+this.contactid+
+        "\n<typeEmployeur :"+this.typeEmployeur+">"+
+        "\n<telephone :"+this.telephone+">"+
+        "\n<mail :"+this.mail+">"+
+        "\n<adresse :"+this.adresse+">"/*+
+        "\n<logo :"+this.logo+">"*/;
+    }
 
     public String getId() {
         return id;

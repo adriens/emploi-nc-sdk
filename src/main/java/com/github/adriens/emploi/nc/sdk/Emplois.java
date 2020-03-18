@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -45,9 +47,9 @@ public class Emplois {
     
     public static final String BASE_URL_OFFRE = "https://emploi.gouv.nc/offres/";
 
-    public static ArrayList<Emploi> getLatestEmploi(int numberLatest) throws IOException {
+    public static Map<Emploi,Employeur> getLatestEmploi(int numberLatest) throws IOException {
 
-        ArrayList<Emploi> listeEmplois = new ArrayList<>();
+        Map<Emploi,Employeur> listeEmplois = new HashMap<>();
 
         logger.info("------------------------------------------------------------");
         logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
@@ -67,10 +69,14 @@ public class Emplois {
         
         for (int i = 0; i < numberLatest; i++) {
             Emploi emploi = getInfoEmploi(jsonNode, i);
-            logger.info("Récupéré emploi :<"+i+"><"+emploi+">");
-
+            Employeur employeur = getInfoEmployeur(jsonNode, i);
+            logger.info("Récupéré emploi : <" + i  + "> "+emploi);
+            logger.info("Récupéré l'employeur pour l'emploi : <" + i  + "> "+employeur);
+            
+            logger.info("Ajout de l'employeur <" + i + "> à la liste");
             logger.info("Ajout de l'emploi <" + i + "> à la liste");
-            listeEmplois.add( emploi );
+
+            listeEmplois.put( emploi, employeur );
 
             logger.info("------------------------------------------------------------");
         }
@@ -144,10 +150,19 @@ public class Emplois {
                 logger.warn("codeROME d'emplois <" + i + "> introuvable.");
             }
             
+            // URL OFFRES gouv.nc
+            try {
+                logger.info("Url vers l'offre  : <" + BASE_URL_OFFRE+emploi.getNumeroOffre() + "   >");
+                emploi.setUrl(BASE_URL_OFFRE+emploi.getNumeroOffre());
+            } catch (Exception e) {
+                logger.warn("Url vers l'offre d'emploi <" + i + "> introuvable.");
+            }
             return emploi;
     }
 
-    public static Employeur getInfoEmployeur(JsonNode jsonNode,Employeur employeur, int i){
+    public static Employeur getInfoEmployeur(JsonNode jsonNode, int i){
+        Employeur employeur = new Employeur();
+        
         // Employeur
         logger.info("Info employeur :--------------------------------------------");
         try {
@@ -194,7 +209,8 @@ public class Emplois {
         }
         try {
             String contenu = jsonNode.get("_embedded").get(i).get("employeur").get("logo").get("contenu").asText();
-            logger.info("contenu : <" + contenu + ">");
+            //logger.info("contenu : <" + contenu + ">");
+            logger.info("contenu is not Empty : <" + !contenu.isEmpty() + ">");
             employeur.setLogo(contenu);
         } catch (Exception e) {
             logger.warn("contenu d'employeur <" + i + "> introuvable.");
@@ -224,22 +240,12 @@ public class Emplois {
             Emploi emploi = new Emploi();
             // TODO : Repenser structure du code
             Employeur employeur = new Employeur();
-
-
             
             emploi = getInfoEmploi(jsonNode, i);
-            getInfoEmployeur(jsonNode,employeur, i);
+            employeur = getInfoEmployeur(jsonNode, i);
 
-
-            // URL OFFRES gouv.nc
-            try {
-                logger.info("Url vers l'offre  : <   " + BASE_URL_OFFRE+emploi.getNumeroOffre() + "   >");
-                employeur.setLogo(BASE_URL_OFFRE+emploi.getNumeroOffre());
-            } catch (Exception e) {
-                logger.warn("Url vers l'offre d'emploi <" + i + "> introuvable.");
-            }
          
-            logger.info("Récupéré emploi :<"+i+"><"+emploi+">");
+            logger.info("Récupéré emploi : <" + i + ">"+emploi);
             logger.info("Ajout de l'emploi <" + i + "> à la liste");
             listeEmplois.add(emploi);
             logger.info("------------------------------------------------------------");

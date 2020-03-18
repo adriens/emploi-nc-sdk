@@ -11,6 +11,7 @@ package com.github.adriens.emploi.nc.sdk;
  */
 public class Emploi {
 
+    /* TODO : Typer les différentes variables d'Emplois*/
     private String titreOffre;
     private String aPourvoirLe;
     private String typeContrat;
@@ -23,7 +24,25 @@ public class Emploi {
 
     private String url;
 
-
+    /**
+     * Return Emploi object, as text.
+     *
+     * @return Emploi object, as text.
+     */
+    @Override
+    public String toString() {
+        return 
+        "\n<Titre offre: " + this.titreOffre + ">"+
+        "\n<aPourvoirLe :"+this.aPourvoirLe+
+        "\n<typeContrat :"+this.typeContrat+">"+
+        "\n<communeEmploi :"+this.communeEmploi+">"+
+        "\n<idOffre :"+this.idOffre+">"+
+        "\n<userId :"+this.userId+">"+
+        "\n<numeroOffre :"+this.numeroOffre+">"+
+        "\n<experience :"+this.experience+">"+
+        "\n<codeRome :"+this.codeROME+">"+
+        "\n<Url :"+this.url+">";
+    }
     
     public String getCodeROME() {
         return codeROME;
@@ -115,16 +134,5 @@ public class Emploi {
         this.titreOffre = titreOffre;
     }
     
-    // TODO : Faire la method tostring
-    /**
-     * Return Emploi object, as text.
-     *
-     * @return Emploi object, as text.
-     */
-    @Override
-    public String toString() {
-        return "<Titre offre: " + this.titreOffre + ">\naPourvoirLe :"+this.aPourvoirLe+
-        "\ntypeContrat :"+this.typeContrat+
-        "\ncommuneEmploi :"+this.communeEmploi;
-    }
+
 }
