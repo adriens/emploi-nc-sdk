@@ -30,8 +30,8 @@ public class Emplois {
     /**
      * number of Emploi we recover
      */
-    public static final String sizeEmplois = "3";
-    public static final String searchEmploi = "developpeur";
+    public static final String sizeEmplois = "";
+    public static final String searchEmploi = "";
     public static final String priseDePosteDu = "";
     public static final String priseDePosteAu = "";
 
@@ -47,6 +47,8 @@ public class Emplois {
     
     public static final String BASE_URL_OFFRE = "https://emploi.gouv.nc/offres/";
 
+   
+
     public static ArrayList<Emploi> getLatestEmploi(int numberLatest) throws IOException {
 
         ArrayList<Emploi> listeEmplois = new ArrayList<>();
@@ -55,12 +57,7 @@ public class Emplois {
         logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
         
 
-        URL url = new URL("" +"https://emploi.gouv.nc/api/v1/offres/public/search?page=0&"+
-        "size="+ numberLatest +
-        "&sort=datePublication,desc&"+
-        "motsCles="+
-        "&priseDePosteDu=" +
-        "&priseDePosteAu=");
+        URL url = new URL("" +BASE_URL);
 
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         JsonNode jsonNode = mapper.readValue(url, JsonNode.class);
@@ -256,7 +253,7 @@ public class Emplois {
         return listeEmplois;
     }
     public static void main (String[] args) throws IOException{
-        System.out.println("Hello World");
         getLatestEmploi(5);
+        Stat.getStats();
     }
 }
