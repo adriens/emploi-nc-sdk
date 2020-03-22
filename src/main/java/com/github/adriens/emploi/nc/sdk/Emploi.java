@@ -21,8 +21,14 @@ public class Emploi {
     private String numeroOffre;
     private String experience;
     private String codeROME;
-
+    private String created;
     private String url;
+    private String updated;
+    private String datePublication;
+    private String duree;
+    private String uniteDuree;
+    private String dureeTempsPartiel;
+    private String desQuePossible;
 
     private Employeur employeur;
 
@@ -37,7 +43,66 @@ public class Emploi {
                 + "\n<typeContrat :" + this.typeContrat + ">" + "\n<communeEmploi :" + this.communeEmploi + ">"
                 + "\n<idOffre :" + this.idOffre + ">" + "\n<userId :" + this.userId + ">" + "\n<numeroOffre :"
                 + this.numeroOffre + ">" + "\n<experience :" + this.experience + ">" + "\n<codeRome :" + this.codeROME
-                + ">" + "\n<Url :" + this.url + ">";
+                + ">" + "\n<Url :" + this.url + ">" + ">" + "\n<created :" + this.created + ">" + "\n<updated :"
+                + this.updated + ">" + "\n<datePublication :" + this.datePublication + ">" + "\n<duree :" + this.duree
+                + ">" + "\n<uniteDuree :" + this.uniteDuree + ">"+ "\n<dureeTempsPartiel :" + this.dureeTempsPartiel + ">"
+                + "\n<desQuePossible :" + this.desQuePossible + ">";
+    }
+
+    public String getDesQuePossible() {
+        return desQuePossible;
+    }
+
+    public void setDesQuePossible(String desQuePossible) {
+        this.desQuePossible = desQuePossible;
+    }
+
+    public String getDureeTempsPartiel() {
+        return dureeTempsPartiel;
+    }
+
+    public void setDureeTempsPartiel(String dureeTempsPartiel) {
+        this.dureeTempsPartiel = dureeTempsPartiel;
+    }
+
+    public String getUniteDuree() {
+        return uniteDuree;
+    }
+
+    public void setUniteDuree(String uniteDuree) {
+        this.uniteDuree = uniteDuree;
+    }
+
+    public String getDuree() {
+        return duree;
+    }
+
+    public void setDuree(String duree) {
+        this.duree = duree;
+    }
+
+    public String getDatePublication() {
+        return datePublication;
+    }
+
+    public void setDatePublication(String datePublication) {
+        this.datePublication = datePublication;
+    }
+
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
     }
 
     public Employeur getEmployeur() {

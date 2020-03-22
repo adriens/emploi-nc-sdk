@@ -66,7 +66,7 @@ public class Emplois {
         
         for (int i = 0; i < numberLatest; i++) {
             Emploi emploi = getInfoEmploi(jsonNode, i);
-            Employeur employeur = getInfoEmployeur(jsonNode, i);
+            Employeur employeur = Employeurs.getInfoEmployeur(jsonNode, i);
             logger.info("Récupéré emploi : <" + i  + "> "+emploi);
             logger.info("Récupéré l'employeur pour l'emploi : <" + i  + "> "+employeur);
             
@@ -147,6 +147,55 @@ public class Emplois {
             } catch (Exception e) {
                 logger.warn("codeROME d'emplois <" + i + "> introuvable.");
             }
+            try {
+                String created = jsonNode.get("_embedded").get(i).get("created").asText();
+                logger.info("created : <" + created + ">");
+                emploi.setCreated(created);
+            } catch (Exception e) {
+                logger.warn("Date création offre d'emplois <" + i + "> introuvable.");
+            }
+            try {
+                String updated = jsonNode.get("_embedded").get(i).get("updated").asText();
+                logger.info("updated : <" + updated + ">");
+                emploi.setUpdated(updated);
+            } catch (Exception e) {
+                logger.warn("Date modification offre d'emplois <" + i + "> introuvable.");
+            }
+            try {
+                String datePublication = jsonNode.get("_embedded").get(i).get("datePublication").asText();
+                logger.info("datePublication : <" + datePublication + ">");
+                emploi.setDatePublication(datePublication);
+            } catch (Exception e) {
+                logger.warn("DatePublication offre d'emplois <" + i + "> introuvable.");
+            }
+            try {
+                String duree = jsonNode.get("_embedded").get(i).get("duree").asText();
+                logger.info("duree : <" + duree + ">");
+                emploi.setDuree(duree);
+            } catch (Exception e) {
+                logger.warn("Duree offre d'emplois <" + i + "> introuvable.");
+            }
+            try {
+                String uniteDuree = jsonNode.get("_embedded").get(i).get("uniteDuree").asText();
+                logger.info("uniteDuree : <" + uniteDuree + ">");
+                emploi.setUniteDuree(uniteDuree);
+            } catch (Exception e) {
+                logger.warn("uniteDuree offre d'emplois <" + i + "> introuvable.");
+            }
+            try {
+                String dureeTempsPartiel = jsonNode.get("_embedded").get(i).get("dureeTempsPartiel").asText();
+                logger.info("dureeTempsPartiel : <" + dureeTempsPartiel + ">");
+                emploi.setDureeTempsPartiel(dureeTempsPartiel);
+            } catch (Exception e) {
+                logger.warn("dureeTempsPartiel offre d'emplois <" + i + "> introuvable.");
+            }
+            try {
+                String desQuePossible = jsonNode.get("_embedded").get(i).get("desQuePossible").asText();
+                logger.info("desQuePossible : <" + desQuePossible + ">");
+                emploi.setDesQuePossible(desQuePossible);
+            } catch (Exception e) {
+                logger.warn("desQuePossible offre d'emplois <" + i + "> introuvable.");
+            }
             
             // URL OFFRES gouv.nc
             try {
@@ -156,64 +205,6 @@ public class Emplois {
                 logger.warn("Url vers l'offre d'emploi <" + i + "> introuvable.");
             }
             return emploi;
-    }
-
-    public static Employeur getInfoEmployeur(JsonNode jsonNode, int i){
-        Employeur employeur = new Employeur();
-        
-        // Employeur
-        logger.info("Info employeur :--------------------------------------------");
-        try {
-            String idEmployeur = jsonNode.get("_embedded").get(i).get("employeur").get("id").asText();
-            logger.info("idEmployeur : <" + idEmployeur + ">");
-            employeur.setId(idEmployeur);
-        } catch (Exception e) {
-            logger.warn("idEmployeur d'employeur <" + i + "> introuvable.");
-        }
-        try {
-            String contactid = jsonNode.get("_embedded").get(i).get("contact").get("id").asText();
-            logger.info("contactid : <" + contactid + ">");
-            employeur.setContactid(contactid);
-        } catch (Exception e) {
-            logger.warn("contactid d'employeur <" + i + "> introuvable.");
-        }
-        try {
-            String typeEmployeur = jsonNode.get("_embedded").get(i).get("employeur").get("type").asText();
-            logger.info("typeEmployeur : <" + typeEmployeur + ">");
-            employeur.setContactid(typeEmployeur);
-        } catch (Exception e) {
-            logger.warn("typeEmployeur d'employeur <" + i + "> introuvable.");
-        }
-        try {
-            String telephone = jsonNode.get("_embedded").get(i).get("contact").get("telephone").asText();
-            logger.info("telephone : <" + telephone + ">");
-            employeur.setTelephone(telephone);
-        } catch (Exception e) {
-            logger.warn("telephone d'employeur <" + i + "> introuvable.");
-        }
-        try {
-            String mail = jsonNode.get("_embedded").get(i).get("contact").get("mail").asText();
-            logger.info("mail : <" + mail + ">");
-            employeur.setMail(mail);
-        } catch (Exception e) {
-            logger.warn("mail d'employeur <" + i + "> introuvable.");
-        }
-        try {
-            String adresse = jsonNode.get("_embedded").get(i).get("employeur").get("adresseCorrespondance").get("deliveryPoint").asText();
-            logger.info("adresse : <" + adresse + ">");
-            employeur.setAdresse(adresse);
-        } catch (Exception e) {
-            logger.warn("adresse d'employeur <" + i + "> introuvable.");
-        }
-        try {
-            String contenu = jsonNode.get("_embedded").get(i).get("employeur").get("logo").get("contenu").asText();
-            //logger.info("contenu : <" + contenu + ">");
-            logger.info("contenu is not Empty : <" + !contenu.isEmpty() + ">");
-            employeur.setLogo(contenu);
-        } catch (Exception e) {
-            logger.warn("contenu d'employeur <" + i + "> introuvable.");
-                    }
-        return employeur;
     }
 
     public static ArrayList<Emploi> getAllEmploi() throws IOException {
@@ -240,7 +231,7 @@ public class Emplois {
             Employeur employeur = new Employeur();
             
             emploi = getInfoEmploi(jsonNode, i);
-            employeur = getInfoEmployeur(jsonNode, i);
+            employeur = Employeurs.getInfoEmployeur(jsonNode, i);
 
             emploi.setEmployeur(employeur);
          
