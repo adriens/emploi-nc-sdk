@@ -19,6 +19,8 @@ public class Emploi {
     private String idOffre;
     private String userId;
     private String numeroOffre;
+    private String shortnumeroOffre;
+
     private String experience;
     private String codeROME;
     private String created;
@@ -45,8 +47,19 @@ public class Emploi {
                 + this.numeroOffre + ">" + "\n<experience :" + this.experience + ">" + "\n<codeRome :" + this.codeROME
                 + ">" + "\n<Url :" + this.url + ">" + ">" + "\n<created :" + this.created + ">" + "\n<updated :"
                 + this.updated + ">" + "\n<datePublication :" + this.datePublication + ">" + "\n<duree :" + this.duree
-                + ">" + "\n<uniteDuree :" + this.uniteDuree + ">"+ "\n<dureeTempsPartiel :" + this.dureeTempsPartiel + ">"
-                + "\n<desQuePossible :" + this.desQuePossible + ">";
+                + ">" + "\n<uniteDuree :" + this.uniteDuree + ">" + "\n<dureeTempsPartiel :" + this.dureeTempsPartiel
+                + ">" + "\n<desQuePossible :" + this.desQuePossible + ">"+ "\n<shortnumeroOffre :" + this.shortnumeroOffre + ">";
+    }
+
+    public String getShortnumeroOffre() {
+        return shortnumeroOffre;
+    }
+
+    public void setShortnumeroOffre(String shortnumeroOffre) {
+        shortnumeroOffre = shortnumeroOffre.replaceAll(".+-", "");
+        shortnumeroOffre = shortnumeroOffre.replaceFirst ("^0*", "");
+        System.out.println(shortnumeroOffre);
+        this.shortnumeroOffre = shortnumeroOffre;
     }
 
     public String getDesQuePossible() {

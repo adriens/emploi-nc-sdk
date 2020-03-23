@@ -8,16 +8,14 @@ package com.github.adriens.emploi.nc.sdk;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -31,7 +29,7 @@ public class Emplois {
     /**
      * number of Emploi we recover
      */
-    public static final String sizeEmplois = "";
+    public static final String sizeEmplois = "200";
     public static final String searchEmploi = "";
     public static final String priseDePosteDu = "";
     public static final String priseDePosteAu = "";
@@ -82,6 +80,31 @@ public class Emplois {
             logger.info("------------------------------------------------------------");
         }
         return listeEmplois;
+    }
+
+    public static Emploi getInfoEmploiX(String numero) throws IOException {
+        URL url = new URL("" +BASE_URL);
+
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNode jsonNode = mapper.readValue(url, JsonNode.class);
+
+        int result = Integer.parseInt(sizeEmplois);
+
+        for (int i = 0; i < result; i++) {
+            try {
+                String numeroOffre = jsonNode.get("_embedded").get(i).get("numero").asText();
+                numeroOffre = numeroOffre.replaceAll(".+-", "");
+                numeroOffre = numeroOffre.replaceFirst ("^0*", "");
+                 if ( numeroOffre.equals(numero) ){
+                    logger.info("numeroOffre : <" + numeroOffre + "> trouvé on vous renvoie les infos" );
+                    return getInfoEmploi(jsonNode, i);
+                 }
+            } catch (Exception e) {
+                logger.warn("numeroOffre d'emplois parcours<" + i + "> est introuvable.");
+            }
+        }
+        logger.warn("numeroOffre d'emplois recherché<" + numero + "> introuvable.");
+        return null;
     }
 
     public static Emploi getInfoEmploi(JsonNode jsonNode,int i) {
@@ -199,6 +222,13 @@ public class Emplois {
             } catch (Exception e) {
                 logger.warn("desQuePossible offre d'emplois <" + i + "> introuvable.");
             }
+            try {
+                String shortnumeroOffre = jsonNode.get("_embedded").get(i).get("numero").asText();
+                emploi.setShortnumeroOffre(shortnumeroOffre);
+                logger.info("shortnumeroOffre : <" + emploi.getShortnumeroOffre() + ">");
+            } catch (Exception e) {
+                logger.warn("shortnumeroOffre offre d'emplois <" + i + "> introuvable.");
+            }
             
             // URL OFFRES gouv.nc
             try {
@@ -248,6 +278,7 @@ public class Emplois {
     }
     public static void main (String[] args) throws IOException{
         getLatestEmploi(5);
+        getInfoEmploiX("4488");
         Stat.getStats();
     }
 }
