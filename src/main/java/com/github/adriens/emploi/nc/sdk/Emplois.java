@@ -82,7 +82,7 @@ public class Emplois {
         return listeEmplois;
     }
 
-    public static Emploi getInfoEmploiByNumero(String numero) throws IOException {
+    public static Emploi getInfoEmploiByNumero(int numero) throws IOException {
         URL url = new URL("" +BASE_URL);
 
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -277,7 +277,7 @@ public class Emplois {
         return listeEmplois;
     }
 
-    public static Employeur getInfoEmployeurByNumEmploi(String numero) throws IOException {
+    public static Employeur getInfoEmployeurByNumEmploi(int numero) throws IOException {
         Emploi emploi = new Emploi();
 
         logger.info("Récupéré de l'employeur de l'offre : <" + numero + ">");
