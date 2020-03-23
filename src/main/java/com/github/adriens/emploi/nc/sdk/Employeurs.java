@@ -1,6 +1,19 @@
 package com.github.adriens.emploi.nc.sdk;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +25,17 @@ import org.slf4j.LoggerFactory;
 
 public class Employeurs {
 
+
     final static Logger logger = LoggerFactory.getLogger(Emplois.class);
-    
-    public static Employeur getInfoEmployeur(JsonNode jsonNode, int i){
+
+    public static final String size = "100";
+
+    public static final String ALLEMPLOYEURS_URL = "https://emploi.gouv.nc/api/v1/offres/employeurs/public/findAllEmployeurWithCountOffres?page=0&size="
+            + size;
+
+    public static Employeur getInfoEmployeur(JsonNode jsonNode,int i) throws IOException {
         Employeur employeur = new Employeur();
-        
+
         // Employeur
         logger.info("Info employeur :--------------------------------------------");
         try {
@@ -55,7 +74,8 @@ public class Employeurs {
             logger.warn("mail d'employeur <" + i + "> introuvable.");
         }
         try {
-            String adresse = jsonNode.get("_embedded").get(i).get("employeur").get("adresseCorrespondance").get("deliveryPoint").asText();
+            String adresse = jsonNode.get("_embedded").get(i).get("employeur").get("adresseCorrespondance")
+                    .get("deliveryPoint").asText();
             logger.info("adresse : <" + adresse + ">");
             employeur.setAdresse(adresse);
         } catch (Exception e) {
@@ -63,12 +83,87 @@ public class Employeurs {
         }
         try {
             String contenu = jsonNode.get("_embedded").get(i).get("employeur").get("logo").get("contenu").asText();
-            //logger.info("contenu : <" + contenu + ">");
+            // logger.info("contenu : <" + contenu + ">");
             logger.info("contenu is not Empty : <" + !contenu.isEmpty() + ">");
             employeur.setLogo(contenu);
         } catch (Exception e) {
             logger.warn("contenu d'employeur <" + i + "> introuvable.");
-                    }
+        }
+        
+        try {
+            String nomEntreprise = jsonNode.get("_embedded").get(i).get("employeur").get("nomEntreprise").asText();
+            logger.info("nomEntreprise : <" + nomEntreprise + ">");
+            employeur.setNomEntreprise(nomEntreprise);
+        } catch (Exception e) {
+            logger.warn("NomEntreprise d'employeur <" + i + "> introuvable.");
+        }
+        try {
+            String complement = jsonNode.get("_embedded").get(i).get("employeur").get("adresseCorrespondance").get("complement").asText();
+            logger.info("Complement : <" + complement + ">");
+            employeur.setComplement(complement);
+        } catch (Exception e) {
+            logger.warn("Complement d'employeur <" + i + "> introuvable.");
+        }
+        try {
+            String deliveryPoint = jsonNode.get("_embedded").get(i).get("employeur").get("adresseCorrespondance").get("deliveryPoint").asText();
+            logger.info("DeliveryPoint : <" + deliveryPoint + ">");
+            employeur.setDeliveryPoint(deliveryPoint);
+        } catch (Exception e) {
+            logger.warn("DeliveryPoint d'employeur <" + i + "> introuvable.");
+        }
+        try {
+            String subdivision = jsonNode.get("_embedded").get(i).get("employeur").get("adresseCorrespondance").get("subdivision").asText();
+            logger.info("subdivision : <" + subdivision + ">");
+            employeur.setSubdivision(subdivision);
+        } catch (Exception e) {
+            logger.warn("Subdivision d'employeur <" + i + "> introuvable.");
+        }
+        try {
+            String street = jsonNode.get("_embedded").get(i).get("employeur").get("adresseCorrespondance").get("street").asText();
+            logger.info("subdivision : <" + street + ">");
+            employeur.setStreet(street);
+        } catch (Exception e) {
+            logger.warn("Street d'employeur <" + i + "> introuvable.");
+        }
+
         return employeur;
+    }
+
+    public static JsonNode  recreateJsonEmployeurs() throws IOException {
+        URL url = new URL(ALLEMPLOYEURS_URL);
+
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNode jsonNodeEmployeurs = mapper.readValue(url, JsonNode.class);
+
+        ObjectMapper mapperRESULT = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNode rootNode = mapperRESULT.readValue(url, JsonNode.class);
+
+        
+        
+        int numberEmployeurs = Integer.parseInt(jsonNodeEmployeurs.get("page").get("totalElements").asText());
+        for(int i = 0; i < numberEmployeurs; i++){
+            try {
+                String idEmployeur = jsonNodeEmployeurs.get("content").get(i).get("id").asText();
+                //logger.info("idEmployeur pour Mapping : <" + idEmployeur + ">");
+                ObjectNode objectNode = ((ObjectNode) rootNode).putObject(idEmployeur);
+
+                objectNode.putObject(idEmployeur);
+                objectNode
+                    .put("nomEntreprise", jsonNodeEmployeurs.get("content").get(i).get("nomEntreprise").asText())
+                    .put("ridetEntreprise", jsonNodeEmployeurs.get("content").get(i).get("nomEntreprise").asText())
+                    .put("nbOffres", jsonNodeEmployeurs.get("content").get(i).get("nbOffres").asText())
+                    
+                    .put("deliveryPoint", jsonNodeEmployeurs.get("content").get(i).get("adresseCorrespondance").get("deliveryPoint").asText())
+                    .put("complement", jsonNodeEmployeurs.get("content").get(i).get("adresseCorrespondance").get("complement").asText())
+                    .put("street", jsonNodeEmployeurs.get("content").get(i).get("adresseCorrespondance").get("street").asText())
+                    .put("subdivision", jsonNodeEmployeurs.get("content").get(i).get("adresseCorrespondance").get("subdivision").asText());
+
+                
+            } catch (Exception e) {
+                logger.warn("Mapping idEmployeur d'employeur <" + i + "> à échoué.");
+            }
+        }
+
+        return rootNode;
     }
 }

@@ -8,6 +8,7 @@ package com.github.adriens.emploi.nc.sdk;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +62,8 @@ public class Emplois {
 
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         JsonNode jsonNode = mapper.readValue(url, JsonNode.class);
+
+
 
         logger.info("Recherche de "+numberLatest+" offres emplois.");		
         
@@ -231,7 +234,7 @@ public class Emplois {
             Employeur employeur = new Employeur();
             
             emploi = getInfoEmploi(jsonNode, i);
-            employeur = Employeurs.getInfoEmployeur(jsonNode, i);
+            employeur = Employeurs.getInfoEmployeur(jsonNode,i);
 
             emploi.setEmployeur(employeur);
          

@@ -15,11 +15,72 @@ public class Employeur {
     private String mail;
     private String adresse; // deliveryPoint
     private String logo;
+    private String nomEntreprise;
+    private String deliveryPoint;
+    private String complement;
+    private String subdivision;
+    private String street;
 
+    /**
+     * Return Employeur object, as text.
+     *
+     * @return Employeur object, as text.
+     */
+    @Override
+    public String toString() {
+        return "\n<id: " + this.id + ">" + "\n<contactid :" + this.contactid + ">" + "\n<typeEmployeur :"
+                + this.typeEmployeur + ">" + "\n<telephone :" + this.telephone + ">" + "\n<mail :" + this.mail + ">"
+                + "\n<adresse :" + this.adresse + ">" + "\n<nomEntreprise :" + this.nomEntreprise + ">"
+                + "\n<deliveryPoint :" + this.deliveryPoint + ">" + "\n<complement :" + this.complement + ">"
+                + "\n<subdivision :" + this.subdivision + ">"+ "\n<street :" + this.street + ">"
 
+        /*
+         * + "\n<logo :"+this.logo+">"
+         */;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getSubdivision() {
+        return subdivision;
+    }
+
+    public void setSubdivision(String subdivision) {
+        this.subdivision = subdivision;
+    }
+
+    public String getComplement() {
+        return complement;
+    }
+
+    public void setComplement(String complement) {
+        this.complement = complement;
+    }
+
+    public String getDeliveryPoint() {
+        return deliveryPoint;
+    }
+
+    public void setDeliveryPoint(String deliveryPoint) {
+        this.deliveryPoint = deliveryPoint;
+    }
 
     public String getId() {
         return id;
+    }
+
+    public String getNomEntreprise() {
+        return nomEntreprise;
+    }
+
+    public void setNomEntreprise(String nomEntreprise) {
+        this.nomEntreprise = nomEntreprise;
     }
 
     public String getLogo() {
@@ -74,20 +135,4 @@ public class Employeur {
         this.id = id;
     }
 
-        /**
-     * Return Employeur object, as text.
-     *
-     * @return Employeur object, as text.
-     */
-    @Override
-    public String toString() {
-        return 
-        "\n<id: " + this.id + ">"+
-        "\n<contactid :"+this.contactid+">"+
-        "\n<typeEmployeur :"+this.typeEmployeur+">"+
-        "\n<telephone :"+this.telephone+">"+
-        "\n<mail :"+this.mail+">"+
-        "\n<adresse :"+this.adresse+">"/*+
-        "\n<logo :"+this.logo+">"*/;
-    }
 }
