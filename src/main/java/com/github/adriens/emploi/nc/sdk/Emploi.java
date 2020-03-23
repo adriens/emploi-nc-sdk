@@ -58,13 +58,13 @@ public class Emploi {
     public void setShortnumeroOffre(String shortnumeroOffre) {
         shortnumeroOffre = shortnumeroOffre.replaceAll(".+-", "");
         shortnumeroOffre = shortnumeroOffre.replaceFirst ("^0*", "");
-        System.out.println(shortnumeroOffre);
         this.shortnumeroOffre = shortnumeroOffre;
     }
 
     public String getDesQuePossible() {
         return desQuePossible;
     }
+
 
     public void setDesQuePossible(String desQuePossible) {
         this.desQuePossible = desQuePossible;

@@ -95,7 +95,7 @@ public class Emplois {
                 String numeroOffre = jsonNode.get("_embedded").get(i).get("numero").asText();
                 numeroOffre = numeroOffre.replaceAll(".+-", "");
                 numeroOffre = numeroOffre.replaceFirst ("^0*", "");
-                 if ( numeroOffre.equals(numero) ){
+                 if ( numeroOffre.equals(""+numero) ){
                     logger.info("numeroOffre : <" + numeroOffre + "> trouvé on vous renvoie les infos" );
                     return getInfoEmploi(jsonNode, i);
                  }
@@ -296,11 +296,11 @@ public class Emplois {
         return emploi.getEmployeur();
     }
     public static void main (String[] args) throws IOException{
-        /*getLatestEmploi(5);
-        getInfoEmploiByNumero("4488");
-        Stat.getStats();
-        Employeurs.getInfoEmployeurByName("ASSUR PLANET / MONCEAU");
-        getInfoEmployeurByNumEmploi("4448");*/
-        Employeurs.getInfoEmployeurById("2c948a416bf3ba22016fb02ac3657d75");
+        //getLatestEmploi(5);
+        getInfoEmploiByNumero(4488);
+        //Stat.getStats();
+        //Employeurs.getInfoEmployeurByName("ASSUR PLANET / MONCEAU");
+        //getInfoEmployeurByNumEmploi(4448);
+       // Employeurs.getInfoEmployeurById("2c948a416bf3ba22016fb02ac3657d75");
     }
 }
