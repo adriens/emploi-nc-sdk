@@ -82,7 +82,7 @@ public class Emplois {
         return listeEmplois;
     }
 
-    public static Emploi getInfoEmploiX(String numero) throws IOException {
+    public static Emploi getInfoEmploiByNumero(String numero) throws IOException {
         URL url = new URL("" +BASE_URL);
 
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -276,9 +276,31 @@ public class Emplois {
         
         return listeEmplois;
     }
+
+    public static Employeur getInfoEmployeurByNumEmploi(String numero) throws IOException {
+        Emploi emploi = new Emploi();
+
+        logger.info("Récupéré de l'employeur de l'offre : <" + numero + ">");
+        try {
+            emploi = getInfoEmploiByNumero(numero);
+        }
+        catch(NullPointerException e){
+            logger.warn("Numero Offre d'emploi non trouvé"+e);
+        }
+        try {
+            emploi.getEmployeur();
+        }catch(NullPointerException e){
+            logger.warn("Employeur introuvable"+e);
+            return null;
+        }
+        return emploi.getEmployeur();
+    }
     public static void main (String[] args) throws IOException{
-        getLatestEmploi(5);
-        getInfoEmploiX("4488");
+        /*getLatestEmploi(5);
+        getInfoEmploiByNumero("4488");
         Stat.getStats();
+        Employeurs.getInfoEmployeurByName("ASSUR PLANET / MONCEAU");
+        getInfoEmployeurByNumEmploi("4448");*/
+        Employeurs.getInfoEmployeurById("2c948a416bf3ba22016fb02ac3657d75");
     }
 }
