@@ -237,6 +237,20 @@ public class Emplois {
             } catch (Exception e) {
                 logger.warn("Url vers l'offre d'emploi <" + i + "> introuvable.");
             }
+
+            // Renvoie des infos employeurs liées à l'offre
+
+            Employeur employeur = new Employeur();
+            try {
+                logger.info("Employeur lié à l'offre  : <" +emploi.getNumeroOffre() + "   >");
+                employeur = Employeurs.getInfoEmployeur(jsonNode, i);
+                logger.info("Ajout de l'employeur à l'offre d'emploi.");
+                emploi.setEmployeur(employeur);
+            } catch (IOException e) {
+                logger.warn("Url vers l'offre d'emploi <" + i + "> introuvable.");
+            }
+
+            
             return emploi;
     }
 
@@ -260,14 +274,9 @@ public class Emplois {
         for (int i = 0; i < result; i++) {
 
             Emploi emploi = new Emploi();
-            // TODO : Repenser structure du code
-            Employeur employeur = new Employeur();
             
             emploi = getInfoEmploi(jsonNode, i);
-            employeur = Employeurs.getInfoEmployeur(jsonNode,i);
-
-            emploi.setEmployeur(employeur);
-         
+                
             logger.info("Récupéré emploi : <" + i + ">"+emploi);
             logger.info("Ajout de l'emploi <" + i + "> à la liste");
             listeEmplois.add(emploi);
@@ -293,14 +302,15 @@ public class Emplois {
             logger.warn("Employeur introuvable"+e);
             return null;
         }
+        System.out.println(emploi.getEmployeur());
         return emploi.getEmployeur();
     }
     public static void main (String[] args) throws IOException{
         //getLatestEmploi(5);
-        getInfoEmploiByNumero(4488);
+        //getInfoEmploiByNumero(4488);
         //Stat.getStats();
         //Employeurs.getInfoEmployeurByName("ASSUR PLANET / MONCEAU");
-        //getInfoEmployeurByNumEmploi(4448);
+        getInfoEmployeurByNumEmploi(4448);
        // Employeurs.getInfoEmployeurById("2c948a416bf3ba22016fb02ac3657d75");
     }
 }

@@ -95,7 +95,7 @@ public class Employeurs {
         try {
             String typeEmployeur = jsonNode.get("_embedded").get(i).get("employeur").get("type").asText();
             logger.info("typeEmployeur : <" + typeEmployeur + ">");
-            employeur.setContactid(typeEmployeur);
+            employeur.setTypeEmployeur(typeEmployeur);
         } catch (Exception e) {
             logger.warn("typeEmployeur d'employeur <" + i + "> introuvable.");
         }
