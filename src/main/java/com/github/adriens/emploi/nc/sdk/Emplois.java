@@ -66,7 +66,7 @@ public class Emplois {
         logger.info("Recherche de "+numberLatest+" offres emplois.");		
         
         for (int i = 0; i < numberLatest; i++) {
-            Emploi emploi = getInfoEmploi(jsonNode, i);
+            Emploi emploi = getInfoEmploi(jsonNode, i,true);
             Employeur employeur = Employeurs.getInfoEmployeur(jsonNode, i);
             logger.info("Récupéré emploi : <" + i  + "> "+emploi);
             logger.info("Récupéré l'employeur pour l'emploi : <" + i  + "> "+employeur);
@@ -82,32 +82,7 @@ public class Emplois {
         return listeEmplois;
     }
 
-    public static Emploi getInfoEmploiByNumero(int numero) throws IOException {
-        URL url = new URL("" +BASE_URL);
-
-        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        JsonNode jsonNode = mapper.readValue(url, JsonNode.class);
-
-        int result = Integer.parseInt(sizeEmplois);
-
-        for (int i = 0; i < result; i++) {
-            try {
-                String numeroOffre = jsonNode.get("_embedded").get(i).get("numero").asText();
-                numeroOffre = numeroOffre.replaceAll(".+-", "");
-                numeroOffre = numeroOffre.replaceFirst ("^0*", "");
-                 if ( numeroOffre.equals(""+numero) ){
-                    logger.info("numeroOffre : <" + numeroOffre + "> trouvé on vous renvoie les infos" );
-                    return getInfoEmploi(jsonNode, i);
-                 }
-            } catch (Exception e) {
-                logger.warn("numeroOffre d'emplois parcours<" + i + "> est introuvable.");
-            }
-        }
-        logger.warn("numeroOffre d'emplois recherché<" + numero + "> introuvable.");
-        return null;
-    }
-
-    public static Emploi getInfoEmploi(JsonNode jsonNode,int i) {
+    public static Emploi getInfoEmploi(JsonNode jsonNode,int i,Boolean searchEmployeurs) {
             Emploi emploi = new Emploi();
 
             try {
@@ -239,17 +214,18 @@ public class Emplois {
             }
 
             // Renvoie des infos employeurs liées à l'offre
-
-            Employeur employeur = new Employeur();
-            try {
-                logger.info("Employeur lié à l'offre  : <" +emploi.getNumeroOffre() + "   >");
-                employeur = Employeurs.getInfoEmployeur(jsonNode, i);
-                logger.info("Ajout de l'employeur à l'offre d'emploi.");
-                emploi.setEmployeur(employeur);
-            } catch (IOException e) {
-                logger.warn("Url vers l'offre d'emploi <" + i + "> introuvable.");
+            if ( searchEmployeurs ) {
+                Employeur employeur = new Employeur();
+                try {
+                    logger.info("Employeur lié à l'offre  : <" +emploi.getNumeroOffre() + ">");
+                    employeur = Employeurs.getInfoEmployeurByName(jsonNode.get("_embedded").get(i).get("employeur").get("nomEntreprise").asText());
+                    logger.info("Ajout de l'employeur à l'offre d'emploi.");
+                    emploi.setEmployeur(employeur);
+                    logger.info("<"+emploi+">");
+                } catch (Exception e) {
+                    logger.warn("Url vers l'offre d'emploi <" + i + "> introuvable.");
+                }
             }
-
             
             return emploi;
     }
@@ -274,9 +250,8 @@ public class Emplois {
         for (int i = 0; i < result; i++) {
 
             Emploi emploi = new Emploi();
-            
-            emploi = getInfoEmploi(jsonNode, i);
-                
+        
+            emploi = getInfoEmploi(jsonNode, i, true);
             logger.info("Récupéré emploi : <" + i + ">"+emploi);
             logger.info("Ajout de l'emploi <" + i + "> à la liste");
             listeEmplois.add(emploi);
@@ -285,7 +260,32 @@ public class Emplois {
         
         return listeEmplois;
     }
+    
+    public static Emploi getInfoEmploiByNumero(int numero) throws IOException {
+        URL url = new URL("" +BASE_URL);
 
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNode jsonNode = mapper.readValue(url, JsonNode.class);
+
+        int result = Integer.parseInt(sizeEmplois);
+
+        for (int i = 0; i < result; i++) {
+            try {
+                String numeroOffre = jsonNode.get("_embedded").get(i).get("numero").asText();
+                numeroOffre = numeroOffre.replaceAll(".+-", "");
+                numeroOffre = numeroOffre.replaceFirst ("^0*", "");
+                 if ( numeroOffre.equals(""+numero) ){
+                    logger.info("numeroOffre : <" + numeroOffre + "> trouvé on vous renvoie les infos" );
+                    return getInfoEmploi(jsonNode, i, true);
+                 }
+            } catch (Exception e) {
+                logger.warn("numeroOffre d'emplois parcours<" + i + "> est introuvable.");
+            }
+        }
+        logger.warn("numeroOffre d'emplois recherché<" + numero + "> introuvable.");
+        return null;
+    }
+    
     public static Employeur getInfoEmployeurByNumEmploi(int numero) throws IOException {
         Emploi emploi = new Emploi();
 
@@ -304,13 +304,5 @@ public class Emplois {
         }
         System.out.println(emploi.getEmployeur());
         return emploi.getEmployeur();
-    }
-    public static void main (String[] args) throws IOException{
-        //getLatestEmploi(5);
-        //getInfoEmploiByNumero(4488);
-        //Stat.getStats();
-        //Employeurs.getInfoEmployeurByName("ASSUR PLANET / MONCEAU");
-        getInfoEmployeurByNumEmploi(4448);
-       // Employeurs.getInfoEmployeurById("2c948a416bf3ba22016fb02ac3657d75");
     }
 }

@@ -59,7 +59,7 @@ public class Stat {
             logger.info("nbOffresPublieesTotales : <" + nbOffresPublieesTotales + ">");
             stat.setNbOffresPublieesTotales(nbOffresPublieesTotales);
 
-            String nbOffresPublieesEnCours = jsonNode.get("nbOffresPublieesTotales").asText();
+            String nbOffresPublieesEnCours = jsonNode.get("nbOffresPublieesEnCours").asText();
             logger.info("nbOffresPublieesTotales : <" + nbOffresPublieesEnCours + ">");
             stat.setNbOffresPublieesEnCours(nbOffresPublieesEnCours);
 

@@ -2,6 +2,8 @@ package com.github.adriens.emploi.nc.sdk;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,58 +22,40 @@ public class Employeurs {
 
     final static Logger logger = LoggerFactory.getLogger(Emplois.class);
 
-    public static final String size = "100";
-
-    public static final String ALLEMPLOYEURS_URL = "https://emploi.gouv.nc/api/v1/offres/employeurs/public/findAllEmployeurWithCountOffres?page=0&size="
-            + size;
+    public static final String SIZE_EMPLOYEURS = "100";
+    public static final String SIZE_OFFERS_BY_EMPLOYEURS = "20";
+    public static final String ALL_EMPLOYEURS_URL = "";
+    public static final String OFFERS_BY_EMPLOYEURS_URL = "https://emploi.gouv.nc/api/v1/offres/public/search?page=0&size="+ SIZE_OFFERS_BY_EMPLOYEURS
+    +"&sort=datePublication,desc&motsCles=";
 
     public static Employeur getInfoEmployeurByName(String nom) throws IOException{
-        URL url = new URL(Emplois.BASE_URL);
+        URL url = new URL(OFFERS_BY_EMPLOYEURS_URL+nom.replaceAll(" ", "%20"));
+        logger.info("On cherche : <" + nom + "> dans cet url<"+url+">");
 
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         JsonNode jsonNode = mapper.readValue(url, JsonNode.class);
 
         int result = Integer.parseInt(Emplois.sizeEmplois);
 
-        for (int i = 0; i < result; i++) {
-            try {
-                String nomEntreprise = jsonNode.get("_embedded").get(i).get("employeur").get("nomEntreprise").asText();
-                logger.info("nomEntreprise : <" + nomEntreprise + ">");
-                 if ( nom.equals(nomEntreprise) ){
+        try {// S'il en trouve au moins une correspondance
+            
+            String nomEntreprise = jsonNode.get("_embedded").get(0).get("employeur").get("nomEntreprise").asText();
+            nomEntreprise = nomEntreprise.replaceAll(" ", "");
+            nom = nom.replaceAll(" ", "");
+            logger.info("nomEntreprise : <" + nomEntreprise + ">");
+            logger.info("nomEntreprise : <" + nomEntreprise + ">" + "nom de la recherche : <" + nom + ">" );
+                if ( nom.equals(nomEntreprise) ){
                     logger.info("nomEntreprise : <" + nomEntreprise + "> trouvé on vous renvoie les infos" );
-                    return getInfoEmployeur(jsonNode, i);
-                 }
-            } catch (Exception e) {
-                logger.warn("numeroOffre d'emplois parcours<" + i + "> est introuvable.");
-            }
+                    return getInfoEmployeur(jsonNode, 0);
+                }
+        } catch (Exception e) {
+            logger.warn("Nom <" + nom + "> est introuvable.");
         }
+    
         logger.warn("nomEntreprise d'employeur recherché<" + nom + "> introuvable.");
         return null;
     }
 
-    public static Employeur getInfoEmployeurById(String id) throws IOException{
-        URL url = new URL(Emplois.BASE_URL);
-
-        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        JsonNode jsonNode = mapper.readValue(url, JsonNode.class);
-
-        int result = Integer.parseInt(Emplois.sizeEmplois);
-
-        for (int i = 0; i < result; i++) {
-            try {
-                String idEmploi = jsonNode.get("_embedded").get(i).get("employeur").get("id").asText();
-                logger.info("id : <" + id + ">"+"idEmploi : <" + idEmploi + ">");
-                 if ( idEmploi.equals(id) ){
-                    logger.info("id : <" + idEmploi + "> trouvé on vous renvoie les infos" );
-                    return getInfoEmployeur(jsonNode, i);
-                 }
-            } catch (Exception e) {
-                logger.warn("numeroOffre d'emplois parcours<" + i + "> est introuvable.");
-            }
-        }
-        logger.warn("idEmploi d'employeur recherché<" + id + "> introuvable.");
-        return null;
-    }
     
     public static Employeur getInfoEmployeur(JsonNode jsonNode,int i) throws IOException {
         Employeur employeur = new Employeur();
@@ -166,11 +150,35 @@ public class Employeurs {
             logger.warn("Street d'employeur <" + i + "> introuvable.");
         }
 
+        // Setting Liste Employeurs
+        try {
+            employeur.setListEmplois(getAllEmploiOfferForEmployeur(jsonNode));
+            logger.info("List Emplois set.");
+        } catch (Exception e) {
+            logger.warn("List Emplois set Erreur"+e);
+        }
+
         return employeur;
     }
 
+    public static ArrayList<Emploi> getAllEmploiOfferForEmployeur(JsonNode jsonNode){
+
+        int numberOffer = Integer.parseInt( jsonNode.get("page").get("totalElements").asText() );
+        ArrayList<Emploi> listEmploi = new ArrayList<>();
+        for (int i = 0; i < numberOffer; i++) {
+            try {
+                listEmploi.add(Emplois.getInfoEmploi(jsonNode,i,false));
+                logger.info("Emplois <"+ i +">"+"getAllEmploiOfferForEmployeur de valide");
+            }catch (Exception e) {
+                logger.warn("Mapping idEmployeur d'employeur <" + i + "> à échoué.");
+            }
+        }
+
+        return listEmploi;
+    }
+    
     public static JsonNode  recreateJsonEmployeurs() throws IOException {
-        URL url = new URL(ALLEMPLOYEURS_URL);
+        URL url = new URL(ALL_EMPLOYEURS_URL);
 
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         JsonNode jsonNodeEmployeurs = mapper.readValue(url, JsonNode.class);

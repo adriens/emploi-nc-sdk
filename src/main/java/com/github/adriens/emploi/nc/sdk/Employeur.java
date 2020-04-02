@@ -1,5 +1,7 @@
 package com.github.adriens.emploi.nc.sdk;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author JAVAE
@@ -21,6 +23,8 @@ public class Employeur {
     private String subdivision;
     private String street;
 
+    private ArrayList<Emploi> listEmplois;
+
     /**
      * Return Employeur object, as text.
      *
@@ -32,11 +36,20 @@ public class Employeur {
                 + this.typeEmployeur + ">" + "\n<telephone :" + this.telephone + ">" + "\n<mail :" + this.mail + ">"
                 + "\n<adresse :" + this.adresse + ">" + "\n<nomEntreprise :" + this.nomEntreprise + ">"
                 + "\n<deliveryPoint :" + this.deliveryPoint + ">" + "\n<complement :" + this.complement + ">"
-                + "\n<subdivision :" + this.subdivision + ">"+ "\n<street :" + this.street + ">"
+                + "\n<subdivision :" + this.subdivision + ">" + "\n<street :" + this.street + ">"
+                + "\n<listEmplois :" +this.listEmplois;
 
         /*
          * + "\n<logo :"+this.logo+">"
-         */;
+         */
+    }
+
+    public ArrayList<Emploi> getListEmplois() {
+        return listEmplois;
+    }
+
+    public void setListEmplois(ArrayList<Emploi> listEmplois) {
+        this.listEmplois = listEmplois;
     }
 
     public String getStreet() {

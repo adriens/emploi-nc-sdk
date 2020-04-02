@@ -48,7 +48,7 @@ public class Emploi {
                 + ">" + "\n<Url :" + this.url + ">" + ">" + "\n<created :" + this.created + ">" + "\n<updated :"
                 + this.updated + ">" + "\n<datePublication :" + this.datePublication + ">" + "\n<duree :" + this.duree
                 + ">" + "\n<uniteDuree :" + this.uniteDuree + ">" + "\n<dureeTempsPartiel :" + this.dureeTempsPartiel
-                + ">" + "\n<desQuePossible :" + this.desQuePossible + ">"+ "\n<shortnumeroOffre :" + this.shortnumeroOffre + ">";
+                + ">" + "\n<desQuePossible :" + this.desQuePossible + ">"+ "\n<shortnumeroOffre :" + this.shortnumeroOffre + ">"+this.employeur;
     }
 
     public String getShortnumeroOffre() {
