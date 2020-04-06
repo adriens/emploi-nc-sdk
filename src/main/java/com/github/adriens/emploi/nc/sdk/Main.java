@@ -11,6 +11,6 @@ public class Main {
         //Emplois.getInfoEmployeurByNumEmploi(4448);
         
         // Employeurs.getInfoEmployeurByName("Easy Skill");
-       // Emplois.getAllEmploi();
+        Employeurs.getAllEmployeurs();
     }
 }
