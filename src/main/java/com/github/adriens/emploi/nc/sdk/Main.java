@@ -8,9 +8,8 @@ public class Main {
     //Emplois.getInfoEmploiByNumero(4488);
     //Stat.getStats();
     //Employeurs.getInfoEmployeurByName("ASSUR PLANET / MONCEAU");
-        //Emplois.getInfoEmployeurByNumEmploi(4448);
-        
-        // Employeurs.getInfoEmployeurByName("Easy Skill");
-        Employeurs.getAllEmployeurs();
+    //Emplois.getInfoEmployeurByNumEmploi(4448);
+    // Employeurs.getInfoEmployeurByName("Easy Skill");
+    //Employeurs.getAllEmployeurs();
     }
 }
