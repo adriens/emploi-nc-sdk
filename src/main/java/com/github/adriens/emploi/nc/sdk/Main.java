@@ -11,5 +11,10 @@ public class Main {
     //Emplois.getInfoEmployeurByNumEmploi(4448);
     // Employeurs.getInfoEmployeurByName("Easy Skill");
     //Employeurs.getAllEmployeurs();
+    //Emplois.getSearchInfoEmploi("30","","Dumbéa","CDI","","");
+    //Emplois.getSearchInfoEmploi("30","","Houaïlou","CDI","","");
+    //Emplois.getSearchInfoEmploi("30","","Île-des-Pins (L')","CDI","","");// TODO pas de donnée
+    Emplois.getSearchInfoEmploi("30","","Païta","CDI","","");
+    //Emplois.getSearchInfoEmploi("30","","Dumbéa","CDI","","");
     }
 }

@@ -65,7 +65,6 @@ public class Emploi {
         return desQuePossible;
     }
 
-
     public void setDesQuePossible(String desQuePossible) {
         this.desQuePossible = desQuePossible;
     }
