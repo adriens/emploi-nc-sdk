@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -325,10 +324,15 @@ public class Emplois {
         ArrayList<Emploi> listeEmplois = new ArrayList<>();
         for (int i = 0; i < numberOffer; i++) {
             Emploi emploi = new Emploi();
-
+            Employeur employeur = Employeurs.getInfoEmployeur(jsonNode, i);
             emploi = getInfoEmploi(jsonNode, i, true);
-            logger.info("Récupéré emploi : <" + i + ">" + emploi);
-            logger.info("Ajout de l'emploi <" + i + "> à la liste");
+            logger.info("SEARCH : Récupéré emploi : <" + i + "> " + emploi);
+            logger.info("SEARCH : Récupéré l'employeur pour l'emploi : <" + i + "> " + employeur);
+
+            logger.info("SEARCH : Ajout de l'employeur <" + i + "> à la liste");
+            logger.info("SEARCH : Ajout de l'emploi <" + i + "> à la liste");
+
+            emploi.setEmployeur(employeur);
             listeEmplois.add(emploi);
             logger.info("------------------------------------------------------------");
         }
