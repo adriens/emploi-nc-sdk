@@ -319,8 +319,10 @@ public class Emplois {
         logger.info("RECHERCHE - Recupération des données de emploi.gouv.nc : ");
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         JsonNode jsonNode = mapper.readValue(url, JsonNode.class);
-
+        int numberOfferMax = Integer.parseInt( jsonNode.get("page").get("totalElements").asText() );
         int numberOffer = Integer.parseInt( searchsizeEmplois );
+
+        if ( numberOffer > numberOfferMax ) numberOffer = numberOfferMax;
         ArrayList<Emploi> listeEmplois = new ArrayList<>();
         for (int i = 0; i < numberOffer; i++) {
             Emploi emploi = new Emploi();
