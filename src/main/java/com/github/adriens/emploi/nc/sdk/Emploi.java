@@ -5,6 +5,8 @@
  */
 package com.github.adriens.emploi.nc.sdk;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author JAVAE
@@ -22,6 +24,9 @@ public class Emploi {
     private String shortnumeroOffre;
 
     private String experience;
+    private String niveauFormation;
+    private String diplome;
+
     private String codeROME;
     private String created;
     private String url;
@@ -32,6 +37,8 @@ public class Emploi {
     private String dureeTempsPartiel;
     private String desQuePossible;
 
+    private ArrayList<String> activites;
+    private ArrayList<String> competences;
     private Employeur employeur;
 
     /**
@@ -39,16 +46,53 @@ public class Emploi {
      *
      * @return Emploi object, as text.
      */
-    @Override
-    public String toString() {
-        return "\n<Titre offre: " + this.titreOffre + ">" + "\n<aPourvoirLe :" + this.aPourvoirLe + ">"
-                + "\n<typeContrat :" + this.typeContrat + ">" + "\n<communeEmploi :" + this.communeEmploi + ">"
-                + "\n<idOffre :" + this.idOffre + ">" + "\n<userId :" + this.userId + ">" + "\n<numeroOffre :"
-                + this.numeroOffre + ">" + "\n<experience :" + this.experience + ">" + "\n<codeRome :" + this.codeROME
-                + ">" + "\n<Url :" + this.url + ">" + ">" + "\n<created :" + this.created + ">" + "\n<updated :"
-                + this.updated + ">" + "\n<datePublication :" + this.datePublication + ">" + "\n<duree :" + this.duree
-                + ">" + "\n<uniteDuree :" + this.uniteDuree + ">" + "\n<dureeTempsPartiel :" + this.dureeTempsPartiel
-                + ">" + "\n<desQuePossible :" + this.desQuePossible + ">"+ "\n<shortnumeroOffre :" + this.shortnumeroOffre + ">"+this.employeur;
+    
+      @Override public String toString() { return "\n<Titre offre: " +
+      this.titreOffre + ">" + "\n<aPourvoirLe :" + this.aPourvoirLe + ">" +
+      "\n<typeContrat :" + this.typeContrat + ">" + "\n<communeEmploi :" +
+      this.communeEmploi + ">" + "\n<idOffre :" + this.idOffre + ">" +
+      "\n<userId :" + this.userId + ">" + "\n<numeroOffre :" + this.numeroOffre +
+      ">" + "\n<experience :" + this.experience + ">" + "\n<codeRome :" +
+      this.codeROME + ">" + "\n<Url :" + this.url + ">" + ">" + "\n<created :" +
+      this.created + ">" + "\n<updated :" + this.updated + ">" +
+      "\n<datePublication :" + this.datePublication + ">" + "\n<duree :" +
+      this.duree + ">" + "\n<uniteDuree :" + this.uniteDuree + ">" +
+      "\n<dureeTempsPartiel :" + this.dureeTempsPartiel + ">" +
+      "\n<desQuePossible :" + this.desQuePossible + ">" + "\n<shortnumeroOffre :" +
+      this.shortnumeroOffre + ">" + this.employeur+ "\n<activites :>" +
+      this.activites; }
+     
+
+    public ArrayList<String> getActivites() {
+        return activites;
+    }
+
+    public String getDiplome() {
+        return diplome;
+    }
+
+    public void setDiplome(String diplome) {
+        this.diplome = diplome;
+    }
+
+    public String getNiveauFormation() {
+        return niveauFormation;
+    }
+
+    public void setNiveauFormation(String niveauFormation) {
+        this.niveauFormation = niveauFormation;
+    }
+
+    public ArrayList<String> getCompetences() {
+        return competences;
+    }
+
+    public void setCompetences(ArrayList<String> competences) {
+        this.competences = competences;
+    }
+
+    public void setActivites(ArrayList<String> activites) {
+        this.activites = activites;
     }
 
     public String getShortnumeroOffre() {
