@@ -41,15 +41,15 @@ public class Emplois {
 
     public static final String BASE_URL_OFFRE = "https://emploi.gouv.nc/offres/";
 
-    public static ArrayList<Emploi> getLastXOfferNumEmploi(int numeroOffre,int last) throws IOException {
+    public static ArrayList<Emploi> getNextXOfferNumEmploi(int numeroOffre,int last) throws IOException {
 
         ArrayList<Emploi> emplois = new ArrayList<>();
         logger.info("Recherche des <"+last+"> offres d'emplois suivantes à partir de l'offre <"+numeroOffre+">.");
-        for(int i = 0;i<last;i ++){
+        for(int i = 1;i<=last;i ++){
             Emploi emploi = new Emploi();
             try {
                 emploi = Emplois.getInfoEmploiByNumero(numeroOffre+i);
-                emplois.add(emploi);
+                if ( emploi != null ) {emplois.add(emploi);}
             } catch (Exception e) {
                 logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
             }
@@ -62,11 +62,11 @@ public class Emplois {
 
         ArrayList<Emploi> emplois = new ArrayList<>();
         logger.info("Recherche des <"+previous+"> offres d'emplois précédentes à partir de l'offre <"+numeroOffre+">.");
-        for(int i = 0;i<previous;i ++){
+        for(int i = 1;i<=previous;i ++){
             Emploi emploi = new Emploi();
             try {
                 emploi = Emplois.getInfoEmploiByNumero(numeroOffre-i);
-                emplois.add(emploi);
+                if ( emploi != null ) {emplois.add(emploi);}
             } catch (Exception e) {
                 logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
             }
