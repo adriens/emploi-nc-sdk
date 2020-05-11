@@ -4,9 +4,9 @@ import java.io.IOException;
 
 public class Main {
     public static void main (String[] args) throws IOException{
-    //Emplois.getLatestEmploi(5);
+    Emplois.getLatestEmploi(5);
     //Emplois.getLastXOfferNumEmploi(4722,10);
-    Emplois.getPreviousXOfferNumEmploi(4722,10);
+    //Emplois.getPreviousXOfferNumEmploi(4722,10);
     //Emplois.getInfoEmploiByNumero(4722);
     //Stat.getStats();
     //Employeurs.getInfoEmployeurByName("ASSUR PLANET / MONCEAU");
