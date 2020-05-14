@@ -37,8 +37,6 @@ public class Emploi {
     private String dureeTempsPartiel;
     private String desQuePossible;
 
-    /*private ArrayList<String> activites;
-    private ArrayList<String> competences;*/
     private Employeur employeur;
 
     /**
@@ -62,10 +60,6 @@ public class Emploi {
       this.shortnumeroOffre + ">" + this.employeur; }
      
 
-   /* public ArrayList<String> getActivites() {
-        return activites;
-    }*/
-
     public String getDiplome() {
         return diplome;
     }
@@ -81,18 +75,6 @@ public class Emploi {
     public void setNiveauFormation(String niveauFormation) {
         this.niveauFormation = niveauFormation;
     }
-
-    /*public ArrayList<String> getCompetences() {
-        return competences;
-    }
-
-    public void setCompetences(ArrayList<String> competences) {
-        this.competences = competences;
-    }
-
-    public void setActivites(ArrayList<String> activites) {
-        this.activites = activites;
-    }*/
 
     public String getShortnumeroOffre() {
         return shortnumeroOffre;

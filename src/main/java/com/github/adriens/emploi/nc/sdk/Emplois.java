@@ -250,47 +250,7 @@ public class Emplois {
         } catch (Exception e) {
             logger.warn("Url vers l'offre d'emploi <" + i + "> introuvable.");
         }
-
-        // Contenu de l'offres descriptions,compétences/activités nécessaire ...
-        //int iact = 0;
-        // activites
-       /* try {
-            ArrayList<String> activites = new ArrayList<>();
-            
-            while ( jsonNode.get("_embedded").get(i).get("activites").get(iact).get("libelle").asText() != null ){
-                String activite = jsonNode.get("_embedded").get(i).get("activites").get(iact).get("libelle").asText();
-                activites.add(activite);
-                emploi.setActivites(activites);
-                iact ++;
-            }
-            
-        } catch (Exception e) {
-            if (iact == 0) {
-                 logger.warn("activite offre d'emplois <" + i + "> introuvable.");
-             }else{
-                logger.info("activite : <" + emploi.getActivites() + ">");
-             }
-        }
-        // compétence
-        int icomp = 0;
-        try {
-            ArrayList<String> competences = new ArrayList<>();
-            
-            while ( jsonNode.get("_embedded").get(i).get("competences").get(icomp).get("libelle").asText() != null ){
-                String competence = jsonNode.get("_embedded").get(i).get("competences").get(icomp).get("libelle").asText();
-                competences.add(competence);
-                emploi.setCompetences(competences);
-                icomp ++;
-            }
-            
-        } catch (Exception e) {
-            if (icomp == 0) {
-                 logger.warn("competences offre d'emplois <" + i + "> introuvable.");
-             }else{
-                logger.info("competences : <" + emploi.getCompetences() + ">");
-             }
-        }*/
-
+        
         // Renvoie des infos employeurs liées à l'offre
         if (searchEmployeurs) {
             Employeur employeur = new Employeur();
