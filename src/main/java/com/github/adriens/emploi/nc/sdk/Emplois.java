@@ -41,37 +41,93 @@ public class Emplois {
 
     public static final String BASE_URL_OFFRE = "https://emploi.gouv.nc/offres/";
 
-    public static ArrayList<Emploi> getNextXOfferNumEmploi(int numeroOffre,int last) throws IOException {
+    public static ArrayList<Emploi> getNextXOfferNumEmploi(int numero,int last) throws IOException {
+
+        URL url = new URL("" + BASE_URL);
+
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNode jsonNode = mapper.readValue(url, JsonNode.class);
+
+        int result = Integer.parseInt(sizeEmplois);
 
         ArrayList<Emploi> emplois = new ArrayList<>();
-        logger.info("Recherche des <"+last+"> offres d'emplois suivantes à partir de l'offre <"+numeroOffre+">.");
-        for(int i = 1;i<=last;i ++){
-            Emploi emploi = new Emploi();
-            try {
-                emploi = Emplois.getInfoEmploiByNumero(numeroOffre+i);
-                if ( emploi != null ) {emplois.add(emploi);}
-            } catch (Exception e) {
-                logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
-            }
+        logger.info("Recherche des <"+last+"> offres d'emplois suivantes à partir de l'offre <"+numero+">.");
+
             
-        }
+
+            for (int j = 0; j < result; j++) {
+                try {
+                    String numeroOffre = jsonNode.get("_embedded").get(j).get("numero").asText();
+                    numeroOffre = numeroOffre.replaceAll(".+-", "");
+                    numeroOffre = numeroOffre.replaceFirst("^0*", "");
+
+                    if (numeroOffre.equals("" + numero)) {
+
+                        for(int i = 1;i<=last&&j+i<=result;i ++){
+                            Emploi emploi = new Emploi();
+                            logger.info("numeroOffre : <" + numeroOffre + "> trouvé on vous renvoie les infos");
+                            try {
+                                emploi = getInfoEmploi(jsonNode, j+i, true);
+                                if ( emploi != null ) {emplois.add(emploi);}
+                            } catch (Exception e) {
+                                logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
+                            }
+                        }
+                        return emplois;
+                    }
+
+                } catch (Exception e) {
+                    logger.warn("numeroOffre d'emplois parcours<" + j + "> est introuvable.");
+                    return emplois;
+                }
+
+            }
+                
         return emplois;
     }
 
-    public static ArrayList<Emploi> getPreviousXOfferNumEmploi(int numeroOffre,int previous) throws IOException {
+    public static ArrayList<Emploi> getPreviousXOfferNumEmploi(int numero,int previous) throws IOException {
+
+        URL url = new URL("" + BASE_URL);
+
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNode jsonNode = mapper.readValue(url, JsonNode.class);
+
+        int result = Integer.parseInt(sizeEmplois);
 
         ArrayList<Emploi> emplois = new ArrayList<>();
-        logger.info("Recherche des <"+previous+"> offres d'emplois précédentes à partir de l'offre <"+numeroOffre+">.");
-        for(int i = 1;i<=previous;i ++){
-            Emploi emploi = new Emploi();
-            try {
-                emploi = Emplois.getInfoEmploiByNumero(numeroOffre-i);
-                if ( emploi != null ) {emplois.add(emploi);}
-            } catch (Exception e) {
-                logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
-            }
+        logger.info("Recherche des <"+previous+"> offres d'emplois suivantes à partir de l'offre <"+numero+">.");
+
             
-        }
+
+            for (int j = 0; j < result; j++) {
+                try {
+                    String numeroOffre = jsonNode.get("_embedded").get(j).get("numero").asText();
+                    numeroOffre = numeroOffre.replaceAll(".+-", "");
+                    numeroOffre = numeroOffre.replaceFirst("^0*", "");
+
+                    if (numeroOffre.equals("" + numero)) {
+
+                        for(int i = 1;i<=previous&&j-i>0;i ++){
+                            Emploi emploi = new Emploi();
+                            logger.info("numeroOffre : <" + numeroOffre + "> trouvé on vous renvoie les infos");
+                            try {
+                                emploi = getInfoEmploi(jsonNode, j-i, true);
+                                if ( emploi != null ) {emplois.add(emploi);}
+                            } catch (Exception e) {
+                                logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
+                                return emplois;
+                            }
+                        }
+                        return emplois;
+                    }
+
+                } catch (Exception e) {
+                    logger.warn("numeroOffre d'emplois parcours<" + j + "> est introuvable.");
+                }
+
+            }
+                
         return emplois;
     }
 
@@ -250,7 +306,7 @@ public class Emplois {
         } catch (Exception e) {
             logger.warn("Url vers l'offre d'emploi <" + i + "> introuvable.");
         }
-        
+
         // Renvoie des infos employeurs liées à l'offre
         if (searchEmployeurs) {
             Employeur employeur = new Employeur();
