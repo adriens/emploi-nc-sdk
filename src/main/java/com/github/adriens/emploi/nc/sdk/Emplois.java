@@ -252,9 +252,9 @@ public class Emplois {
         }
 
         // Contenu de l'offres descriptions,compétences/activités nécessaire ...
-        int iact = 0;
+        //int iact = 0;
         // activites
-        try {
+       /* try {
             ArrayList<String> activites = new ArrayList<>();
             
             while ( jsonNode.get("_embedded").get(i).get("activites").get(iact).get("libelle").asText() != null ){
@@ -289,7 +289,8 @@ public class Emplois {
              }else{
                 logger.info("competences : <" + emploi.getCompetences() + ">");
              }
-        }
+        }*/
+
         // Renvoie des infos employeurs liées à l'offre
         if (searchEmployeurs) {
             Employeur employeur = new Employeur();

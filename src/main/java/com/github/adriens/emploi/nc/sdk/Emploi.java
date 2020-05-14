@@ -37,8 +37,8 @@ public class Emploi {
     private String dureeTempsPartiel;
     private String desQuePossible;
 
-    private ArrayList<String> activites;
-    private ArrayList<String> competences;
+    /*private ArrayList<String> activites;
+    private ArrayList<String> competences;*/
     private Employeur employeur;
 
     /**
@@ -59,13 +59,12 @@ public class Emploi {
       this.duree + ">" + "\n<uniteDuree :" + this.uniteDuree + ">" +
       "\n<dureeTempsPartiel :" + this.dureeTempsPartiel + ">" +
       "\n<desQuePossible :" + this.desQuePossible + ">" + "\n<shortnumeroOffre :" +
-      this.shortnumeroOffre + ">" + this.employeur+ "\n<activites :>" +
-      this.activites; }
+      this.shortnumeroOffre + ">" + this.employeur; }
      
 
-    public ArrayList<String> getActivites() {
+   /* public ArrayList<String> getActivites() {
         return activites;
-    }
+    }*/
 
     public String getDiplome() {
         return diplome;
@@ -83,7 +82,7 @@ public class Emploi {
         this.niveauFormation = niveauFormation;
     }
 
-    public ArrayList<String> getCompetences() {
+    /*public ArrayList<String> getCompetences() {
         return competences;
     }
 
@@ -93,7 +92,7 @@ public class Emploi {
 
     public void setActivites(ArrayList<String> activites) {
         this.activites = activites;
-    }
+    }*/
 
     public String getShortnumeroOffre() {
         return shortnumeroOffre;
