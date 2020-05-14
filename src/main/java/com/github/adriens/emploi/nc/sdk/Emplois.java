@@ -307,13 +307,13 @@ public class Emplois {
             logger.warn("Url vers l'offre d'emploi <" + i + "> introuvable.");
         }
 
+        String nomEntreprise = jsonNode.get("_embedded").get(i).get("employeur").get("nomEntreprise").asText();
         // Renvoie des infos employeurs liées à l'offre
-        if (searchEmployeurs) {
+        if ( searchEmployeurs && nomEntreprise != "Anonyme" && nomEntreprise != "" ) {
             Employeur employeur = new Employeur();
             try {
                 logger.info("Employeur lié à l'offre  : <" + emploi.getNumeroOffre() + ">");
-                employeur = Employeurs.getInfoEmployeurByName(
-                        jsonNode.get("_embedded").get(i).get("employeur").get("nomEntreprise").asText());
+                employeur = Employeurs.getInfoEmployeurByName(nomEntreprise);
                 logger.info("Ajout de l'employeur à l'offre d'emploi.");
                 emploi.setEmployeur(employeur);
                 logger.info("<" + emploi + ">");
