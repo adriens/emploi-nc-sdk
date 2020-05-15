@@ -41,7 +41,7 @@ public class Emplois {
 
     public static final String BASE_URL_OFFRE = "https://emploi.gouv.nc/offres/";
 
-    public static ArrayList<Emploi> getNextXOfferNumEmploi(int numero,int last) throws IOException {
+    public static ArrayList<Emploi> getPreviousXOfferNumEmploi(int numero,int last) throws IOException {
 
         URL url = new URL("" + BASE_URL);
 
@@ -86,7 +86,7 @@ public class Emplois {
         return emplois;
     }
 
-    public static ArrayList<Emploi> getPreviousXOfferNumEmploi(int numero,int previous) throws IOException {
+    public static ArrayList<Emploi> getNextXOfferNumEmploi(int numero,int previous) throws IOException {
 
         URL url = new URL("" + BASE_URL);
 
