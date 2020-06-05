@@ -4,6 +4,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main (String[] args) throws IOException{
+    Emplois.getCSVLines(200);
     //Emplois.getLatestEmploi(5);
     //Emplois.getNextXOfferNumEmploi(4722,10);
     //Emplois.getPreviousXOfferNumEmploi(4722,10);
@@ -20,3 +21,4 @@ public class Main {
     //Emplois.getSearchInfoEmploi("2","","Dumbéa","CDI","","");
     }
 }
+

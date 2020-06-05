@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -41,7 +42,7 @@ public class Emplois {
 
     public static final String BASE_URL_OFFRE = "https://emploi.gouv.nc/offres/";
 
-    public static ArrayList<Emploi> getPreviousXOfferNumEmploi(int numero,int last) throws IOException {
+    public static ArrayList<Emploi> getPreviousXOfferNumEmploi(int numero, int last) throws IOException {
 
         URL url = new URL("" + BASE_URL);
 
@@ -51,42 +52,42 @@ public class Emplois {
         int result = Integer.parseInt(sizeEmplois);
 
         ArrayList<Emploi> emplois = new ArrayList<>();
-        logger.info("Recherche des <"+last+"> offres d'emplois suivantes à partir de l'offre <"+numero+">.");
+        logger.info("Recherche des <" + last + "> offres d'emplois suivantes à partir de l'offre <" + numero + ">.");
 
-            
+        for (int j = 0; j < result; j++) {
+            try {
+                String numeroOffre = jsonNode.get("_embedded").get(j).get("numero").asText();
+                numeroOffre = numeroOffre.replaceAll(".+-", "");
+                numeroOffre = numeroOffre.replaceFirst("^0*", "");
 
-            for (int j = 0; j < result; j++) {
-                try {
-                    String numeroOffre = jsonNode.get("_embedded").get(j).get("numero").asText();
-                    numeroOffre = numeroOffre.replaceAll(".+-", "");
-                    numeroOffre = numeroOffre.replaceFirst("^0*", "");
+                if (numeroOffre.equals("" + numero)) {
 
-                    if (numeroOffre.equals("" + numero)) {
-
-                        for(int i = 1;i<=last&&j+i<=result;i ++){
-                            Emploi emploi = new Emploi();
-                            logger.info("numeroOffre : <" + numeroOffre + "> trouvé on vous renvoie les infos");
-                            try {
-                                emploi = getInfoEmploi(jsonNode, j+i, true);
-                                if ( emploi != null ) {emplois.add(emploi);}
-                            } catch (Exception e) {
-                                logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
+                    for (int i = 1; i <= last && j + i <= result; i++) {
+                        Emploi emploi = new Emploi();
+                        logger.info("numeroOffre : <" + numeroOffre + "> trouvé on vous renvoie les infos");
+                        try {
+                            emploi = getInfoEmploi(jsonNode, j + i, true);
+                            if (emploi != null) {
+                                emplois.add(emploi);
                             }
+                        } catch (Exception e) {
+                            logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
                         }
-                        return emplois;
                     }
-
-                } catch (Exception e) {
-                    logger.warn("numeroOffre d'emplois parcours<" + j + "> est introuvable.");
                     return emplois;
                 }
 
+            } catch (Exception e) {
+                logger.warn("numeroOffre d'emplois parcours<" + j + "> est introuvable.");
+                return emplois;
             }
-                
+
+        }
+
         return emplois;
     }
 
-    public static ArrayList<Emploi> getNextXOfferNumEmploi(int numero,int previous) throws IOException {
+    public static ArrayList<Emploi> getNextXOfferNumEmploi(int numero, int previous) throws IOException {
 
         URL url = new URL("" + BASE_URL);
 
@@ -96,38 +97,39 @@ public class Emplois {
         int result = Integer.parseInt(sizeEmplois);
 
         ArrayList<Emploi> emplois = new ArrayList<>();
-        logger.info("Recherche des <"+previous+"> offres d'emplois suivantes à partir de l'offre <"+numero+">.");
+        logger.info(
+                "Recherche des <" + previous + "> offres d'emplois suivantes à partir de l'offre <" + numero + ">.");
 
-            
+        for (int j = 0; j < result; j++) {
+            try {
+                String numeroOffre = jsonNode.get("_embedded").get(j).get("numero").asText();
+                numeroOffre = numeroOffre.replaceAll(".+-", "");
+                numeroOffre = numeroOffre.replaceFirst("^0*", "");
 
-            for (int j = 0; j < result; j++) {
-                try {
-                    String numeroOffre = jsonNode.get("_embedded").get(j).get("numero").asText();
-                    numeroOffre = numeroOffre.replaceAll(".+-", "");
-                    numeroOffre = numeroOffre.replaceFirst("^0*", "");
+                if (numeroOffre.equals("" + numero)) {
 
-                    if (numeroOffre.equals("" + numero)) {
-
-                        for(int i = 1;i<=previous&&j-i>0;i ++){
-                            Emploi emploi = new Emploi();
-                            logger.info("numeroOffre : <" + numeroOffre + "> trouvé on vous renvoie les infos");
-                            try {
-                                emploi = getInfoEmploi(jsonNode, j-i, true);
-                                if ( emploi != null ) {emplois.add(emploi);}
-                            } catch (Exception e) {
-                                logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
-                                return emplois;
+                    for (int i = 1; i <= previous && j - i > 0; i++) {
+                        Emploi emploi = new Emploi();
+                        logger.info("numeroOffre : <" + numeroOffre + "> trouvé on vous renvoie les infos");
+                        try {
+                            emploi = getInfoEmploi(jsonNode, j - i, true);
+                            if (emploi != null) {
+                                emplois.add(emploi);
                             }
+                        } catch (Exception e) {
+                            logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
+                            return emplois;
                         }
-                        return emplois;
                     }
-
-                } catch (Exception e) {
-                    logger.warn("numeroOffre d'emplois parcours<" + j + "> est introuvable.");
+                    return emplois;
                 }
 
+            } catch (Exception e) {
+                logger.warn("numeroOffre d'emplois parcours<" + j + "> est introuvable.");
             }
-                
+
+        }
+
         return emplois;
     }
 
@@ -309,7 +311,7 @@ public class Emplois {
 
         String nomEntreprise = jsonNode.get("_embedded").get(i).get("employeur").get("nomEntreprise").asText();
         // Renvoie des infos employeurs liées à l'offre
-        if ( searchEmployeurs && nomEntreprise != "Anonyme" && nomEntreprise != "" ) {
+        if (searchEmployeurs && nomEntreprise != "Anonyme" && nomEntreprise != "") {
             Employeur employeur = new Employeur();
             try {
                 logger.info("Employeur lié à l'offre  : <" + emploi.getNumeroOffre() + ">");
@@ -399,23 +401,20 @@ public class Emplois {
         return emploi.getEmployeur();
     }
 
-    public static ArrayList<Emploi> getSearchInfoEmploi(String searchsizeEmplois,String searchmotsCles,String searchcommunehEmploi,String searchtypeContrat,String searchpriseDePosteDu,String searchpriseDePosteAu) throws IOException {
+    public static ArrayList<Emploi> getSearchInfoEmploi(String searchsizeEmplois, String searchmotsCles,
+            String searchcommunehEmploi, String searchtypeContrat, String searchpriseDePosteDu,
+            String searchpriseDePosteAu) throws IOException {
         logger.info("------------------------------------------------------------");
-        
-        
-        String surl = "https://emploi.gouv.nc/api/v1/offres/public/search?page=0&"+
-        "size="+ searchsizeEmplois +
-        "&sort=datePublication,desc&"+
-        "motsCles="+ searchmotsCles +
-        "&communeEmploi="+ searchcommunehEmploi +
-        "&typeContrat=" + searchtypeContrat +
-        "&priseDePosteDu="+ searchpriseDePosteDu +
-        "&priseDePosteAu="+ searchpriseDePosteAu;
-        surl = surl.replaceAll("é","%C3%A9");
-        surl = surl.replaceAll("î","%C3%8E");
-        surl = surl.replaceAll("ï","%C3%AF");
-        surl = surl.replaceAll("'","%27");
-        surl = surl.replaceAll("è","%C3%A8");
+
+        String surl = "https://emploi.gouv.nc/api/v1/offres/public/search?page=0&" + "size=" + searchsizeEmplois
+                + "&sort=datePublication,desc&" + "motsCles=" + searchmotsCles + "&communeEmploi="
+                + searchcommunehEmploi + "&typeContrat=" + searchtypeContrat + "&priseDePosteDu=" + searchpriseDePosteDu
+                + "&priseDePosteAu=" + searchpriseDePosteAu;
+        surl = surl.replaceAll("é", "%C3%A9");
+        surl = surl.replaceAll("î", "%C3%8E");
+        surl = surl.replaceAll("ï", "%C3%AF");
+        surl = surl.replaceAll("'", "%27");
+        surl = surl.replaceAll("è", "%C3%A8");
         URL url = new URL(surl);
 
         logger.info("URL de recherche : " + url);
@@ -423,10 +422,11 @@ public class Emplois {
         logger.info("RECHERCHE - Recupération des données de emploi.gouv.nc : ");
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         JsonNode jsonNode = mapper.readValue(url, JsonNode.class);
-        int numberOfferMax = Integer.parseInt( jsonNode.get("page").get("totalElements").asText() );
-        int numberOffer = Integer.parseInt( searchsizeEmplois );
+        int numberOfferMax = Integer.parseInt(jsonNode.get("page").get("totalElements").asText());
+        int numberOffer = Integer.parseInt(searchsizeEmplois);
 
-        if ( numberOffer > numberOfferMax ) numberOffer = numberOfferMax;
+        if (numberOffer > numberOfferMax)
+            numberOffer = numberOfferMax;
         ArrayList<Emploi> listeEmplois = new ArrayList<>();
         for (int i = 0; i < numberOffer; i++) {
             Emploi emploi = new Emploi();
@@ -445,4 +445,71 @@ public class Emplois {
         return listeEmplois;
     }
 
+    public static ArrayList<CSVLine> getCSVLines(int n) throws IOException {
+
+        ArrayList<CSVLine> csvs = new ArrayList<>();
+
+        URL url = new URL("" + BASE_URL);
+
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNode jsonNode = mapper.readValue(url, JsonNode.class);
+
+        int numberOfferMax = Integer.parseInt(jsonNode.get("page").get("totalElements").asText());
+
+        logger.info("------------------------------------------------------------");
+        logger.info("Recupération des derniers emplois sur emploi.gouv.nc : ");
+        logger.info(BASE_URL);
+        for (int i = 0; i < n && i < numberOfferMax; i++) {
+            CSVLine line = new CSVLine();
+            try{
+                String numeroOffre = jsonNode.get("_embedded").get(i).get("numero").asText();
+                logger.info("idOffre : <" + numeroOffre + ">");
+                line.setNumeroOffre(numeroOffre);
+
+                
+                String titreOffre = jsonNode.get("_embedded").get(i).get("titreOffre").asText();
+                logger.info("titreOffre : <" + titreOffre + ">");
+                line.setTitreOffre(titreOffre);
+
+                String nomEntreprise = jsonNode.get("_embedded").get(i).get("employeur").get("nomEntreprise").asText();
+                logger.info("nomEntreprise : <" + nomEntreprise + ">");
+                line.setNomEntreprise(nomEntreprise);
+                
+                String aPourvoirLe = jsonNode.get("_embedded").get(i).get("aPourvoirLe").asText();
+                logger.info("aPourvoirLe : <" + aPourvoirLe + ">");
+                line.setaPourvoirLe(aPourvoirLe);
+
+                String communeEmploi = jsonNode.get("_embedded").get(i).get("communeEmploi").asText();
+                logger.info("communeEmploi : <" + communeEmploi + ">");
+                line.setCommuneEmploi(communeEmploi);
+                
+                String experience = jsonNode.get("_embedded").get(i).get("experience").asText();
+                logger.info("experience : <" + experience + ">");
+                line.setExperience(experience);
+                
+                String niveauFormation = jsonNode.get("_embedded").get(i).get("niveauFormation").asText();
+                logger.info("niveauFormation : <" + niveauFormation + ">");
+                line.setNiveauFormation(niveauFormation);
+
+                String diplome = jsonNode.get("_embedded").get(i).get("diplome").asText();
+                logger.info("diplome : <" + diplome + ">");
+                line.setDiplome(diplome);
+                
+                
+                String nbPostes = jsonNode.get("_embedded").get(i).get("nbPostes").asText();
+                logger.info("nbPostes : <" + nbPostes + ">");
+                line.setNbPostes(nbPostes);
+
+                String datePublication = jsonNode.get("_embedded").get(i).get("datePublication").asText();
+                logger.info("datePublication : <" + datePublication + ">");
+                line.setDatePublication(datePublication);
+            }catch(Exception e){
+                logger.error("Erreur Structure changées ou liens invalide,indiponible ou autres", e);
+            }
+            csvs.add(line);
+
+            logger.info("------------------------------------------------------------");
+        }
+        return csvs;
+    }
 }
