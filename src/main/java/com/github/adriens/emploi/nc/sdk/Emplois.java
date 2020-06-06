@@ -15,7 +15,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -478,6 +480,7 @@ public class Emplois {
                 String aPourvoirLe = jsonNode.get("_embedded").get(i).get("aPourvoirLe").asText();
                 logger.info("aPourvoirLe : <" + aPourvoirLe + ">");
                 line.setaPourvoirLe(aPourvoirLe);
+                logger.info("---------------<" + line.getaPourvoirLe() + ">");
 
                 String communeEmploi = jsonNode.get("_embedded").get(i).get("communeEmploi").asText();
                 logger.info("communeEmploi : <" + communeEmploi + ">");
@@ -503,6 +506,7 @@ public class Emplois {
                 String datePublication = jsonNode.get("_embedded").get(i).get("datePublication").asText();
                 logger.info("datePublication : <" + datePublication + ">");
                 line.setDatePublication(datePublication);
+                logger.info("---------------<" + line.getDatePublication() + ">");
             }catch(Exception e){
                 logger.error("Erreur Structure changées ou liens invalide,indiponible ou autres", e);
             }

@@ -1,5 +1,7 @@
 package com.github.adriens.emploi.nc.sdk;
 
+import java.util.Date;
+
 public class CSVLine {
 
     private String numeroOffre;
@@ -22,7 +24,9 @@ public class CSVLine {
     }
 
     public void setDatePublication(String datePublication) {
-        this.datePublication = datePublication;
+        datePublication = datePublication.replaceAll("-","/");
+        datePublication.subSequence(0,10);
+        this.datePublication = datePublication.subSequence(0,10).toString();
     }
 
     public void setNumeroOffre(String numeroOffre) {
@@ -74,7 +78,10 @@ public class CSVLine {
     }
 
     public void setaPourvoirLe(String aPourvoirLe) {
-        this.aPourvoirLe = aPourvoirLe;
+        String year = (String) aPourvoirLe.subSequence(6,10);
+        String month = aPourvoirLe.subSequence(2,6).toString();
+        String day = aPourvoirLe.subSequence(0,2).toString();
+        this.aPourvoirLe = year+month+day;
     }
 
     public String getNomEntreprise() {
