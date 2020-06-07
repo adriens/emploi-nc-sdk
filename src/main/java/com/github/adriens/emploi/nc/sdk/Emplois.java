@@ -506,7 +506,9 @@ public class Emplois {
                 String datePublication = jsonNode.get("_embedded").get(i).get("datePublication").asText();
                 logger.info("datePublication : <" + datePublication + ">");
                 line.setDatePublication(datePublication);
-                logger.info("---------------<" + line.getDatePublication() + ">");
+
+                logger.info("Url vers l'offre  : <" + BASE_URL_OFFRE + line.getNumeroOffre() + "   >");
+                line.setUrl(BASE_URL_OFFRE + line.getNumeroOffre());
             }catch(Exception e){
                 logger.error("Erreur Structure changées ou liens invalide,indiponible ou autres", e);
             }

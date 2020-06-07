@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class CSVLine {
 
+    private String url;
     private String numeroOffre;
     private String titreOffre;
     private String nomEntreprise;
@@ -100,4 +101,11 @@ public class CSVLine {
         this.titreOffre = titreOffre;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }
