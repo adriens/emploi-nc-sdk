@@ -465,47 +465,48 @@ public class Emplois {
             CSVLine line = new CSVLine();
             try{
                 String numeroOffre = jsonNode.get("_embedded").get(i).get("numero").asText();
-                logger.info("idOffre : <" + numeroOffre + ">");
                 line.setNumeroOffre(numeroOffre);
-
+                logger.info("idOffre : <" + line.getNumeroOffre() + ">");
                 
                 String titreOffre = jsonNode.get("_embedded").get(i).get("titreOffre").asText();
-                logger.info("titreOffre : <" + titreOffre + ">");
                 line.setTitreOffre(titreOffre);
+                logger.info("titreOffre : <" + line.getTitreOffre() + ">");
 
                 String nomEntreprise = jsonNode.get("_embedded").get(i).get("employeur").get("nomEntreprise").asText();
-                logger.info("nomEntreprise : <" + nomEntreprise + ">");
                 line.setNomEntreprise(nomEntreprise);
-                
+                logger.info("nomEntreprise : <" + line.getNomEntreprise() + ">");
+
                 String aPourvoirLe = jsonNode.get("_embedded").get(i).get("aPourvoirLe").asText();
-                logger.info("aPourvoirLe : <" + aPourvoirLe + ">");
                 line.setaPourvoirLe(aPourvoirLe);
-                logger.info("---------------<" + line.getaPourvoirLe() + ">");
+                logger.info("aPourvoirLe : " + line.getaPourvoirLe() + ">");
 
                 String communeEmploi = jsonNode.get("_embedded").get(i).get("communeEmploi").asText();
-                logger.info("communeEmploi : <" + communeEmploi + ">");
                 line.setCommuneEmploi(communeEmploi);
+                logger.info("communeEmploi : <" + line.getCommuneEmploi() + ">");
                 
                 String experience = jsonNode.get("_embedded").get(i).get("experience").asText();
-                logger.info("experience : <" + experience + ">");
                 line.setExperience(experience);
-                
+                logger.info("experience : <" + line.getExperience() + ">");
+
                 String niveauFormation = jsonNode.get("_embedded").get(i).get("niveauFormation").asText();
-                logger.info("niveauFormation : <" + niveauFormation + ">");
                 line.setNiveauFormation(niveauFormation);
+                logger.info("niveauFormation : <" + line.getNiveauFormation() + ">");
 
                 String diplome = jsonNode.get("_embedded").get(i).get("diplome").asText();
-                logger.info("diplome : <" + diplome + ">");
                 line.setDiplome(diplome);
-                
+                logger.info("diplome : <" + line.getDiplome() + ">");
                 
                 String nbPostes = jsonNode.get("_embedded").get(i).get("nbPostes").asText();
-                logger.info("nbPostes : <" + nbPostes + ">");
                 line.setNbPostes(nbPostes);
+                logger.info("nbPostes : <" + line.getNbPostes() + ">");
 
                 String datePublication = jsonNode.get("_embedded").get(i).get("datePublication").asText();
-                logger.info("datePublication : <" + datePublication + ">");
                 line.setDatePublication(datePublication);
+                logger.info("datePublication : <" + line.getDatePublication() + ">");
+
+                String typeContrat = jsonNode.get("_embedded").get(i).get("typeContrat").asText();
+                line.setTypeContrat(typeContrat);
+                logger.info("typeContrat : <" + line.getTypeContrat() + ">");
 
                 logger.info("Url vers l'offre  : <" + BASE_URL_OFFRE + line.getNumeroOffre() + "   >");
                 line.setUrl(BASE_URL_OFFRE + line.getNumeroOffre());
