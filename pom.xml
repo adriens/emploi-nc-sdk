@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.adriens</groupId>
     <artifactId>emploi-nc-sdk</artifactId>
-    <version>0.1.64-SNAPSHOT</version>
+    <version>0.1.65-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -13,10 +13,26 @@
         <logback.version>1.2.3</logback.version>
         <jackson.version>2.10.1</jackson.version>
         <jaxb.version>2.3.0</jaxb.version>
+        <jaxbactivation.version>1.1</jaxbactivation.version>
+        <jaxbglassfish.version>2.3.0-b170127.1453</jaxbglassfish.version>
     </properties>
 
     <dependencies>
 
+        <!-- https://mvnrepository.com/artifact/javax.activation/activation -->
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>${jaxbactivation.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>${jaxbglassfish.version}</version>
+        </dependency>
+                
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
