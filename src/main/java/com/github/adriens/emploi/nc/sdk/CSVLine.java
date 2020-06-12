@@ -1,7 +1,5 @@
 package com.github.adriens.emploi.nc.sdk;
 
-import java.util.Date;
-
 public class CSVLine {
 
     private String url;
@@ -17,8 +15,45 @@ public class CSVLine {
     private String datePublication;
     private String typeContrat;
 
+    private String province;
+    private String latitude;
+    private String longitude;
+    private String urlgooglemap;
+
     public String getNumeroOffre() {
         return numeroOffre;
+    }
+
+    public String getUrlgooglemap() {
+        return urlgooglemap;
+    }
+
+    public void setUrlgooglemap(String urlgooglemap) {
+        this.urlgooglemap = urlgooglemap;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public String getDatePublication() {

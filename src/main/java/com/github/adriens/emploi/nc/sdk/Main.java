@@ -2,9 +2,12 @@ package com.github.adriens.emploi.nc.sdk;
 
 import java.io.IOException;
 
+import com.github.adriens.emploi.nc.sdk.xml.XMLReader;
+
 public class Main {
     public static void main (String[] args) throws IOException{
-    Emplois.getCSVLines(1);
+    //XMLReader.read();
+    Emplois.getCSVLines(10);
     //Emplois.getLatestEmploi(5);
     //Emplois.getNextXOfferNumEmploi(4722,10);
     //Emplois.getPreviousXOfferNumEmploi(4722,10);

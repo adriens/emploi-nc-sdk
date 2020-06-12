@@ -8,9 +8,14 @@ package com.github.adriens.emploi.nc.sdk;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.adriens.emploi.nc.sdk.xml.Commune;
+import com.github.adriens.emploi.nc.sdk.xml.Communes;
+import com.github.adriens.emploi.nc.sdk.xml.XMLReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import redis.clients.jedis.commands.Commands;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -18,6 +23,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -479,10 +485,6 @@ public class Emplois {
                 String aPourvoirLe = jsonNode.get("_embedded").get(i).get("aPourvoirLe").asText();
                 line.setaPourvoirLe(aPourvoirLe);
                 logger.info("aPourvoirLe : " + line.getaPourvoirLe() + ">");
-
-                String communeEmploi = jsonNode.get("_embedded").get(i).get("communeEmploi").asText();
-                line.setCommuneEmploi(communeEmploi);
-                logger.info("communeEmploi : <" + line.getCommuneEmploi() + ">");
                 
                 String experience = jsonNode.get("_embedded").get(i).get("experience").asText();
                 line.setExperience(experience);
@@ -510,13 +512,42 @@ public class Emplois {
 
                 logger.info("Url vers l'offre  : <" + BASE_URL_OFFRE + line.getNumeroOffre() + "   >");
                 line.setUrl(BASE_URL_OFFRE + line.getNumeroOffre());
-            }catch(Exception e){
+
+                String communeEmploi = jsonNode.get("_embedded").get(i).get("communeEmploi").asText();
+                line.setCommuneEmploi(communeEmploi);
+                logger.info("communeEmploi : <" + line.getCommuneEmploi() + ">");
+
+              
+
+            } catch (Exception e) {
                 logger.error("Erreur Structure changées ou liens invalide,indiponible ou autres", e);
             }
             csvs.add(line);
 
             logger.info("------------------------------------------------------------");
         }
+
+        csvs = findProvince(csvs);
+
         return csvs;
+    }
+
+    public static ArrayList<CSVLine> findProvince(ArrayList<CSVLine> csvlines) {
+        Communes communes = XMLReader.read();
+       
+
+        List<Commune> listCommunes = communes.getCommunes();
+
+        for ( CSVLine l : csvlines ){
+            for ( Commune c :  listCommunes ){
+                if ( l.getCommuneEmploi().contains(c.getName()) ){
+                    l.setProvince(c.getProvince().getName());
+                    l.setLatitude(c.getLocalisation().getLat());
+                    l.setLongitude(c.getLocalisation().getLongitude());
+                    l.setUrlgooglemap(c.getLocalisation().getUrlgooglemap());
+                }
+            }
+        }
+        return csvlines;
     }
 }
