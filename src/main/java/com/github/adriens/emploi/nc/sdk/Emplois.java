@@ -11,12 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.adriens.emploi.nc.sdk.xml.Commune;
 import com.github.adriens.emploi.nc.sdk.xml.Communes;
 import com.github.adriens.emploi.nc.sdk.xml.XMLReader;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import redis.clients.jedis.commands.Commands;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -509,16 +506,11 @@ public class Emplois {
                 String typeContrat = jsonNode.get("_embedded").get(i).get("typeContrat").asText();
                 line.setTypeContrat(typeContrat);
                 logger.info("typeContrat : <" + line.getTypeContrat() + ">");
-
                 logger.info("Url vers l'offre  : <" + BASE_URL_OFFRE + line.getNumeroOffre() + "   >");
                 line.setUrl(BASE_URL_OFFRE + line.getNumeroOffre());
-
                 String communeEmploi = jsonNode.get("_embedded").get(i).get("communeEmploi").asText();
                 line.setCommuneEmploi(communeEmploi);
                 logger.info("communeEmploi : <" + line.getCommuneEmploi() + ">");
-
-              
-
             } catch (Exception e) {
                 logger.error("Erreur Structure changées ou liens invalide,indiponible ou autres", e);
             }
@@ -534,8 +526,6 @@ public class Emplois {
 
     public static ArrayList<CSVLine> findProvince(ArrayList<CSVLine> csvlines) {
         Communes communes = XMLReader.read();
-       
-
         List<Commune> listCommunes = communes.getCommunes();
 
         for ( CSVLine l : csvlines ){

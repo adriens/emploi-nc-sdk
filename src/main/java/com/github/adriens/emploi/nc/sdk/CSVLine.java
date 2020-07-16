@@ -107,6 +107,8 @@ public class CSVLine {
     }
 
     public void setCommuneEmploi(String communeEmploi) {
+        communeEmploi = communeEmploi.replaceAll("-", " ");
+        communeEmploi = communeEmploi.replaceAll("(L')", " ");
         this.communeEmploi = "'"+communeEmploi+"'";
     }
 
