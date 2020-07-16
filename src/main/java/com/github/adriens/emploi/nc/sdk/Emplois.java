@@ -506,9 +506,11 @@ public class Emplois {
                 String typeContrat = jsonNode.get("_embedded").get(i).get("typeContrat").asText();
                 line.setTypeContrat(typeContrat);
                 logger.info("typeContrat : <" + line.getTypeContrat() + ">");
+
                 logger.info("Url vers l'offre  : <" + BASE_URL_OFFRE + line.getNumeroOffre() + "   >");
                 line.setUrl(BASE_URL_OFFRE + line.getNumeroOffre());
                 String communeEmploi = jsonNode.get("_embedded").get(i).get("communeEmploi").asText();
+                
                 line.setCommuneEmploi(communeEmploi);
                 logger.info("communeEmploi : <" + line.getCommuneEmploi() + ">");
             } catch (Exception e) {
