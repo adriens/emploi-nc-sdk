@@ -83,7 +83,7 @@ public class CSVLine {
     }
 
     public void setDiplome(String diplome) {
-        this.diplome = "'"+diplome+"'";
+        this.diplome = '"'+diplome+'"';
     }
 
     public String getNiveauFormation() {
@@ -91,7 +91,7 @@ public class CSVLine {
     }
 
     public void setNiveauFormation(String niveauFormation) {
-        this.niveauFormation = "'"+niveauFormation+"'";
+        this.niveauFormation = '"'+niveauFormation+'"';
     }
 
     public String getExperience() {
@@ -99,7 +99,7 @@ public class CSVLine {
     }
 
     public void setExperience(String experience) {
-        this.experience = "'"+experience+"'";
+        this.experience = '"'+experience+'"';
     }
 
     public String getCommuneEmploi() {
@@ -107,9 +107,7 @@ public class CSVLine {
     }
 
     public void setCommuneEmploi(String communeEmploi) {
-        communeEmploi = communeEmploi.replaceAll("-", " ");
-        communeEmploi = communeEmploi.replaceAll("(L')", " ");
-        this.communeEmploi = "'"+communeEmploi+"'";
+        this.communeEmploi = '"'+communeEmploi+'"';
     }
 
     public String getaPourvoirLe() {
@@ -128,7 +126,7 @@ public class CSVLine {
     }
 
     public void setNomEntreprise(String nomEntreprise) {
-        this.nomEntreprise = "'"+nomEntreprise+"'";
+        this.nomEntreprise = '"'+nomEntreprise+'"';
     }
 
     public String getTitreOffre() {
@@ -136,7 +134,7 @@ public class CSVLine {
     }
 
     public void setTitreOffre(String titreOffre) {
-        this.titreOffre = "'"+titreOffre+"'";
+        this.titreOffre = '"'+titreOffre+'"';
     }
 
     public String getUrl() {
@@ -152,6 +150,6 @@ public class CSVLine {
     }
 
     public void setTypeContrat(String typeContrat) {
-        this.typeContrat = "'"+typeContrat+"'";
+        this.typeContrat = '"'+typeContrat+'"';
     }
 }
